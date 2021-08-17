@@ -50,6 +50,17 @@ def createBoxes():
         x_offset = 0
 
 
+def returnRowFromBox(pos, box_num):
+    """Find the row a square would be in and return it"""
+
+def returnColumnFromBox(pos, box_num):
+    """Find the column a square would be in and return it"""
+
+
+def checkSquare(pos, box_num):
+    """Check and see what a square could be"""
+    
+
 createBoxes()
 
 # print(f"Board: {board}")
