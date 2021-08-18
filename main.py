@@ -32,8 +32,8 @@ boxes = []
 #  number is 1, an put that in the right spot
 #    - each time, recheck all the numbers and update the total values
 
-def createBoxes():
-    """Create all boxes for the Sudoku board"""
+def getBoxes():
+    """Get all boxes for the Sudoku board"""
     x_offset = 0
     y_offset = 0
 
@@ -59,9 +59,8 @@ def returnColumnFromBox(box_pos, box_num):
     """Find the column a square would be in and return it"""
 
 
-def checkSquare(x, y, box_x=0, box_y=0, box_num=0):
+def checkPossibleNums(x, y):
     """Check and see what a square could be"""
-    # box_pos is a 1-9 going left to right, top to down increasing
     # x and y are the absolute x and y positions on the whole board
 
     def getColumn(row):
@@ -70,17 +69,25 @@ def checkSquare(x, y, box_x=0, box_y=0, box_num=0):
     row = board[x];
     column = list(map(getColumn, board))
     box = boxes[x//3][y//3]
-    pos = board[x][y]
+    flat_box = box[0]+box[1]+box[2]
+    # pos = board[x][y]
 
-    print(f"x, y: {x}, {y}")
-    print(f"Row: {row}")
-    print(f"Column: {column}")
-    print(f"Box: {box}")
-    print(f"Num/pos: {pos}")
+    possible_nums = []
 
+    # print(f"x, y: {x}, {y}")
+    # print(f"Row: {row}")
+    # print(f"Column: {column}")
+    # print(f"Box: {box}")
+    # print(f"Num/pos: {pos}")
 
-createBoxes()
-checkSquare(6, 4)
+    for num in range(1, 10):
+        if not num in row and not num in column and not num in flat_box:
+            possible_nums.append(num)
+
+    return possible_nums
+
+getBoxes()
+checkPossibleNums(6, 4)
 
 # print(f"Board: {board}")
 # print(f"Boxes: {boxes}")
