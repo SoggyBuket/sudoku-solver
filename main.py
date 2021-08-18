@@ -51,14 +51,6 @@ def getBoxes():
         y_offset += 3
         x_offset = 0
 
-
-def returnRowFromBox(box_pos, box_num):
-    """Find the row a square would be in and return it"""
-
-def returnColumnFromBox(box_pos, box_num):
-    """Find the column a square would be in and return it"""
-
-
 def checkPossibleNums(x, y):
     """Check and see what a square could be"""
     # x and y are the absolute x and y positions on the whole board
@@ -86,8 +78,29 @@ def checkPossibleNums(x, y):
 
     return possible_nums
 
-getBoxes()
-checkPossibleNums(6, 4)
+def getAllPossibleNums():
+    """
+    Find the possible numbers each square on the board could be and
+    add a list of them where the number is
+    """
+    getBoxes()
 
-# print(f"Board: {board}")
-# print(f"Boxes: {boxes}")
+    for i in range(81):
+        # this works because of how division with 9 works
+        hor = i//9
+        ver = i%9
+
+        possible_nums = []
+
+        if board[hor][ver] == 0:
+            possible_nums = checkPossibleNums(hor, ver)
+        
+        if len(possible_nums) < 1:
+            print("Puzzle unsolvable :(")
+            return False
+        else:
+            board[hor][ver] = possible_nums
+
+        
+
+getAllPossibleNums()
