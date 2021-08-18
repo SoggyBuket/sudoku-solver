@@ -100,7 +100,3 @@ def getAllPossibleNums():
             return False
         else:
             board[hor][ver] = possible_nums
-
-        
-
-getAllPossibleNums()
