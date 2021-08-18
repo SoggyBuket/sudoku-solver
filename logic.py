@@ -3,8 +3,6 @@
 #  - sudoku solving logic
 #  - maybe some other things?
 
-import tkinter as tk # -- gonna use this later for gui interface
-
 board = [
     [0,0,9,0,8,0,0,2,7],
     [2,0,5,4,0,0,3,0,0],
