@@ -50,18 +50,34 @@ def createBoxes():
         x_offset = 0
 
 
-def returnRowFromBox(pos, box_num):
+def returnRowFromBox(box_pos, box_num):
     """Find the row a square would be in and return it"""
 
-def returnColumnFromBox(pos, box_num):
+def returnColumnFromBox(box_pos, box_num):
     """Find the column a square would be in and return it"""
 
 
-def checkSquare(pos, box_num):
+def checkSquare(x, y, box_x=0, box_y=0, box_num=0):
     """Check and see what a square could be"""
-    
+    # box_pos is a 1-9 going left to right, top to down increasing
+    # x and y are the absolute x and y positions on the whole board
+
+    def getColumn(row):
+        return row[y]
+
+    row = board[x];
+    column = list(map(getColumn, board))
+    box = boxes[]
+    pos = board[x][y]
+
+    print(f"Row: {row}")
+    print(f"Column: {column}")
+    print(f"Box: {box}")
+    print(f"Num/pos: {pos}")
+
 
 createBoxes()
+checkSquare(7, 4)
 
 # print(f"Board: {board}")
 # print(f"Boxes: {boxes}")
