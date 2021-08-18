@@ -38,14 +38,16 @@ def createBoxes():
     y_offset = 0
 
     for i in range(3):
+        current_row = []
         for j in range(3):
             current_box = []
 
             for k in range(3):
                 current_box.append(board[k+y_offset][x_offset:3+x_offset])
             
-            boxes.append(current_box)
+            current_row.append(current_box)
             x_offset += 3
+        boxes.append(current_row)
         y_offset += 3
         x_offset = 0
 
@@ -67,9 +69,10 @@ def checkSquare(x, y, box_x=0, box_y=0, box_num=0):
 
     row = board[x];
     column = list(map(getColumn, board))
-    box = boxes[]
+    box = boxes[x//3][y//3]
     pos = board[x][y]
 
+    print(f"x, y: {x}, {y}")
     print(f"Row: {row}")
     print(f"Column: {column}")
     print(f"Box: {box}")
@@ -77,7 +80,7 @@ def checkSquare(x, y, box_x=0, box_y=0, box_num=0):
 
 
 createBoxes()
-checkSquare(7, 4)
+checkSquare(6, 4)
 
 # print(f"Board: {board}")
 # print(f"Boxes: {boxes}")
