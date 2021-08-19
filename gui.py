@@ -13,8 +13,12 @@ class Application(tk.Frame):
 
     def create_widgets(self):
         """Create the base widgets the window has on it"""
-        self.hi_there = tk.Button(self, command=self.say_hi)
+        self.hi_there = tk.Button(self, fg="blue", command=self.say_hi)
+        # enter is mouse down?
+        self.hi_there.bind("<Enter>", self.test)
         self.hi_there["text"] = "Hello world\n(click me)"
+        # I don't know how to use the relief option yet :/
+        self.hi_there["relief"] = "flat"
         self.hi_there.pack(side="top")
 
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
@@ -22,6 +26,9 @@ class Application(tk.Frame):
 
     def say_hi(self):
         print("Hello :)")
+
+    def test(self, event):
+        event.widget["activeforeground"] = "red"
 
 # initialize the window/container
 root = tk.Tk()
