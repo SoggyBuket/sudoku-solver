@@ -7,7 +7,10 @@ class Application(tk.Frame):
         """Initialize basic variables and call methods"""
         super().__init__(master)
         self.master = master
+        self.master.geometry("600x400")
+        self.master.config(bg="#00154f")
         # pack the current frame into the master container (the window)
+        self.config(bg="green")
         self.pack()
         self.create_widgets()
 
