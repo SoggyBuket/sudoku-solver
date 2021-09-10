@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from PIL import ImageTk, Image
 
 root = Tk()
 root.title("Sudoku Solver")
@@ -14,53 +15,41 @@ frames = {
     "main": main_frame,
     "button": ttk.Frame(main_frame, padding="5 3"),
     "l_board": ttk.Frame(main_frame, padding="5 3", width="200", height="200"),
-    "r_board": ttk.Frame(main_frame, padding="5 3"),
 }
 
 # -- houses all of the things in the button frame
-button_widgets = {
-    "hello": ttk.Button(frames["button"], text="hello", command=lambda: print("hello"))
-}
+button_widgets = {}
 
 # -- houses all of the things in the left board frame
-l_board_widgets = {
-    "board": ttk.Label(frames["l_board"]),
-    "hola": ttk.Button(frames["l_board"], text="hola", command=lambda: print("hola")),
-}
-
-# -- houses all of the things in the right board frame
-r_board_widgets = {
-    "board": ttk.Label(frames["r_board"]),
-    "thing": ttk.Label(frames["r_board"], text="hello"),
-}
+lbw = {}
 
 def gridFrames():
     frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
     frames["button"].grid(column=2, row=1, sticky=N)
     frames["l_board"].grid(column=1, row=1, sticky=W)
-    frames["r_board"].grid(column=3, row=1, sticky=E)
 
 def gridBoardWidgets():
-    l_board_widgets["board"].grid(column=2, row=1, sticky=(N, S, E, W))
+    l_board_w["board"].grid(column=2, row=1, sticky=(N, S, E, W))
     # l_board_widgets["hola"].grid(column=1, row=1, sticky=W)
-
-    # r_board_widgets["board"].grid(column=1, row=1, sticky=E)
-    # r_board_widgets["thing"].grid(column=1, row=1, sticky=E)
 
     # button_widgets["hello"].grid(column=1, row=3, sticky=S)
 
 def setupThings():
+    global l_board_widgets, button_widgets
+
     gridFrames()
 
+    l_board_widgets
+
     board_img = PhotoImage(file="board.png")
-    print(board_img)
+
     s = ttk.Style()
     s.configure("something.TFrame", background="red", relief="raised")
     m = ttk.Style()
     m.configure("main.TFrame", background="blue", relief="groove", borderwidth=5, width=600, height=600)
 
-    for frame in frames.keys():
-        frames[frame].configure(style="something.TFrame")
+    # for frame in frames.keys():
+    #     frames[frame].configure(style="something.TFrame")
 
     frames["l_board"].configure(style="main.TFrame")
 
