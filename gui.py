@@ -8,14 +8,6 @@ root.title("Sudoku Solver")
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
-main_frame = ttk.Frame(root)
-# -- houses all of the frames
-frames = {
-    "main": main_frame,
-    "button": ttk.Frame(main_frame, padding="5 3"),
-    "l_board": ttk.Frame(main_frame, padding="5 3", width="200", height="200"),
-}
-
 # -- the image for the board
 board_img = PhotoImage(file="board.png")
 
@@ -25,16 +17,16 @@ button_widgets = {}
 # -- houses all of the things in the left board frame
 lbw = {}
 
-def gridAll():
+def gridAll(frames, wid):
     # -- gridding the frames
     frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
     frames["button"].grid(column=2, row=1, sticky=N)
     frames["l_board"].grid(column=1, row=1, sticky=W)
 
     # -- gridding the widgets
-    lbw["board"].grid(column=2, row=1, sticky=(N, S, E, W))
+    wid["lb"]["board"].grid(column=2, row=1, sticky=(N, S, E, W))
 
-def makeStyles():
+def createStyles():
     styles = {
         "s": ttk.Style(),
         "m": ttk.Style(),
@@ -57,16 +49,41 @@ def makeStyles():
 
     return styles
 
+def createFrames():
+    main_frame = ttk.Frame(root)
+
+    frames = {
+        "main": main_frame,
+        "button": ttk.Frame(main_frame, padding="5 3"),
+        "l_board": ttk.Frame(main_frame, padding="5 3", width="200", height="200"),
+    }
+
+    return frames
+
+def createWidgets(frames):
+    wid = {
+        "lb": {
+            "board": ttk.Label(frames["l_board"], image=board_img)
+        },
+        "but": {
+            "start": ttk.Button(frames["button"], text="Start")
+        }
+    }
+
+    return wid
+
 def setupThings():
-    global lbw, button_widgets
+    frames = createFrames()
+    wid = createWidgets(frames)
+    styles = createStyles()
 
-    lbw["board"] = ttk.Label(frames["l_board"], image=board_img)
+    wid["lb"]["board"] = ttk.Label(frames["l_board"], image=board_img)
 
-    styles = makeStyles()
     frames["l_board"].configure(style="main.TFrame")
 
+    gridAll(frames, wid)
+
 setupThings()
-gridAll()
 
 # main_frame = ttk.Frame(root)
 # main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
