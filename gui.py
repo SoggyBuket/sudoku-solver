@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-from PIL import ImageTk, Image
 
 root = Tk()
 root.title("Sudoku Solver")
@@ -17,51 +16,57 @@ frames = {
     "l_board": ttk.Frame(main_frame, padding="5 3", width="200", height="200"),
 }
 
+# -- the image for the board
+board_img = PhotoImage(file="board.png")
+
 # -- houses all of the things in the button frame
 button_widgets = {}
 
 # -- houses all of the things in the left board frame
 lbw = {}
 
-def gridFrames():
+def gridAll():
+    # -- gridding the frames
     frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
     frames["button"].grid(column=2, row=1, sticky=N)
     frames["l_board"].grid(column=1, row=1, sticky=W)
 
-def gridBoardWidgets():
-    l_board_w["board"].grid(column=2, row=1, sticky=(N, S, E, W))
-    # l_board_widgets["hola"].grid(column=1, row=1, sticky=W)
+    # -- gridding the widgets
+    lbw["board"].grid(column=2, row=1, sticky=(N, S, E, W))
 
-    # button_widgets["hello"].grid(column=1, row=3, sticky=S)
+def makeStyles():
+    styles = {
+        "s": ttk.Style(),
+        "m": ttk.Style(),
+    }
+
+    styles["s"].configure(
+        "something.TFrame", 
+        background="red", 
+        relief="raised",
+    )
+
+    styles["s"].configure(
+        "main.TFrame", 
+        background="blue", 
+        relief="groove", 
+        borderwidth=5, 
+        width=600, 
+        height=600,
+    )
+
+    return styles
 
 def setupThings():
-    global l_board_widgets, button_widgets
+    global lbw, button_widgets
 
-    gridFrames()
+    lbw["board"] = ttk.Label(frames["l_board"], image=board_img)
 
-    l_board_widgets
-
-    board_img = PhotoImage(file="board.png")
-
-    s = ttk.Style()
-    s.configure("something.TFrame", background="red", relief="raised")
-    m = ttk.Style()
-    m.configure("main.TFrame", background="blue", relief="groove", borderwidth=5, width=600, height=600)
-
-    # for frame in frames.keys():
-    #     frames[frame].configure(style="something.TFrame")
-
+    styles = makeStyles()
     frames["l_board"].configure(style="main.TFrame")
 
-
-    # -- houses all of the things in the left board frame
-
-    # l_board_widgets["board"]["image"] = board_img
-    # r_board_widgets["board"]["image"] = board_img
-
-    gridBoardWidgets()
-
 setupThings()
+gridAll()
 
 # main_frame = ttk.Frame(root)
 # main_frame.grid(column=0, row=0, sticky=(N, W, E, S))

@@ -9,8 +9,22 @@ root = Tk()
 # canvas.create_image(0, 0, image=photo)
 
 image = PhotoImage(file='board.png')
-label = ttk.Label(root, image=image)
-# label["image"] = PhotoImage(file='board.png')
-label.grid(row=0, column=0)
+lbw = {}
+
+main_frame = ttk.Frame(root)
+
+def create():
+    global lbw
+
+    lbw["label"] = ttk.Label(main_frame)
+    lbw["label"]["image"] = image
+
+def grid():
+    main_frame.grid(row=0, column=0)
+    
+    lbw["label"].grid(row=0, column=0)
+
+create()
+grid()
 
 root.mainloop()
