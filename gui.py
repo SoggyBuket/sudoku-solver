@@ -17,15 +17,6 @@ button_widgets = {}
 # -- houses all of the things in the left board frame
 lbw = {}
 
-def gridAll(frames, wid):
-    # -- gridding the frames
-    frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
-    frames["button"].grid(column=2, row=1, sticky=N)
-    frames["l_board"].grid(column=1, row=1, sticky=W)
-
-    # -- gridding the widgets
-    wid["lb"]["board"].grid(column=2, row=1, sticky=(N, S, E, W))
-
 def createStyles():
     styles = {
         "s": ttk.Style(),
@@ -43,8 +34,6 @@ def createStyles():
         background="blue", 
         relief="groove", 
         borderwidth=5, 
-        width=600, 
-        height=600,
     )
 
     return styles
@@ -54,8 +43,8 @@ def createFrames():
 
     frames = {
         "main": main_frame,
-        "button": ttk.Frame(main_frame, padding="5 3"),
-        "l_board": ttk.Frame(main_frame, padding="5 3", width="200", height="200"),
+        "button": ttk.Frame(main_frame, padding="5"),
+        "l_board": ttk.Frame(main_frame, padding="1"),
     }
 
     return frames
@@ -72,14 +61,25 @@ def createWidgets(frames):
 
     return wid
 
+def gridAll(frames, wid):
+    # -- gridding the frames
+    frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
+    frames["button"].grid(column=2, row=1, sticky=N)
+    frames["l_board"].grid(column=1, row=1, sticky=W)
+
+    # -- gridding the widgets
+    wid["lb"]["board"].grid(column=0, row=0, sticky=(N, S, E, W))
+
+    wid["but"]["start"].grid(column=0, row=5, sticky=S)
+
 def setupThings():
     frames = createFrames()
     wid = createWidgets(frames)
     styles = createStyles()
 
-    wid["lb"]["board"] = ttk.Label(frames["l_board"], image=board_img)
+    # wid["lb"]["board"] = ttk.Label(frames["l_board"], image=board_img)
 
-    frames["l_board"].configure(style="main.TFrame")
+    # frames["l_board"].configure(style="main.TFrame")
 
     gridAll(frames, wid)
 

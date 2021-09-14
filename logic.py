@@ -56,7 +56,7 @@ def checkPossibleNums(x, y):
     def getColumn(row):
         return row[y]
 
-    row = board[x];
+    row = board[x]
     column = list(map(getColumn, board))
     box = boxes[x//3][y//3]
     flat_box = box[0]+box[1]+box[2]
