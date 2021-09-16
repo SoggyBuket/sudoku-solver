@@ -9,7 +9,7 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
 # -- the image for the board. Also it has to be global for some reason
-board_img = PhotoImage(file="board.png")
+board_img = PhotoImage(file="img/board.png")
 
 # -- TODO: Distinguish the input board from the output board in a good way
 
