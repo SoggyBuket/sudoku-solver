@@ -39,7 +39,7 @@ def createFrames():
     frames = {
         "main": main_frame,
         "button": ttk.Frame(main_frame, padding="10"),
-        "l_board": ttk.Labelframe(main_frame, text="Input:"),
+        "l_board": ttk.Frame(main_frame),
         "r_board": ttk.Frame(main_frame),
     }
 
@@ -48,10 +48,11 @@ def createFrames():
 def createWidgets(frames):
     wid = {
         "lb": {
-            "input_text": ttk.Label(frames["l_board"], text="hello", padding=""),
+            "input_text": ttk.Label(frames["l_board"], text="Input:", padding="20 1"),
             "board": ttk.Label(frames["l_board"], image=board_img)
         },
         "rb": {
+            "output_text": ttk.Label(frames["r_board"], text="Output:", padding="20 1"),
             "board": ttk.Label(frames["r_board"], image=board_img)
         },
         "but": {
@@ -70,9 +71,10 @@ def gridAll(frames, wid):
 
     # -- gridding the widgets
     wid["lb"]["board"].grid(column=0, row=1, sticky=(N, S, E, W))
-    # wid["lb"]["input_text"].grid(column=0, row=0, sticky=(N, W))
+    wid["lb"]["input_text"].grid(column=0, row=0, sticky=(N, W))
 
-    wid["rb"]["board"].grid(column=0, row=0, sticky=(N, S, E, W))
+    wid["rb"]["board"].grid(column=0, row=1, sticky=(N, S, E, W))
+    wid["rb"]["output_text"].grid(column=0, row=0, sticky=(N, W))
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
