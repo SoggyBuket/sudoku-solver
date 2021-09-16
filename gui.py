@@ -76,6 +76,7 @@ def gridAll(frames, wid):
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
+# -- I don't think I want this function when I start to interface with the main file
 def setupThings():
     # -- houses all the frames
     frames = createFrames()
