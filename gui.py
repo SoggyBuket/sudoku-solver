@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 
+import re
+
 root = Tk()
 root.title("Sudoku Solver")
 # root.geometry("600x600")
@@ -10,8 +12,6 @@ root.rowconfigure(0, weight=1)
 
 # -- the image for the board. Also it has to be global for some reason
 board_img = PhotoImage(file="img/board.png")
-
-# -- TODO: Distinguish the input board from the output board in a good way
 
 def createStyles():
     styles = {
@@ -43,6 +43,8 @@ def createFrames():
         "r_board": ttk.Frame(main_frame),
     }
 
+    frames["entries"] = ttk.Frame(frames["l_board"])
+
     return frames
 
 def createWidgets(frames):
@@ -51,6 +53,7 @@ def createWidgets(frames):
             "input_text": ttk.Label(frames["l_board"], text="Input:", padding="20 1"),
             "board": ttk.Label(frames["l_board"], image=board_img)
         },
+        "en": {},
         "rb": {
             "output_text": ttk.Label(frames["r_board"], text="Output:", padding="20 1"),
             "board": ttk.Label(frames["r_board"], image=board_img)
@@ -59,6 +62,21 @@ def createWidgets(frames):
             "start": ttk.Button(frames["button"], text="Start")
         },
     }
+
+    en_vars = []
+
+    for i in range(81) {
+        en_vars[i] = StringVar()
+        wid["en"][f"{i}"] = ttk.Entry(
+            frames["entries"], textvariable=en_vars[i], validate="key",
+            validatecommand=check_wrap
+        )
+    }
+
+    def check(new):
+        return re.match('^[0-9]*$', new) is not None and len(new) <= 1
+        
+    check_wrap = (root.register(check), "%P")
 
     return wid
 
@@ -77,6 +95,10 @@ def gridAll(frames, wid):
     wid["rb"]["output_text"].grid(column=0, row=0, sticky=(N, W))
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
+
+    for i in range(9):
+        for i in range(9):
+            # -- TODO: grid all of the entry boxes :)
 
 # -- I don't think I want this function when I start to interface with the main file
 def setupThings():
