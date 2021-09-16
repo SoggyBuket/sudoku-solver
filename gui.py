@@ -8,14 +8,8 @@ root.title("Sudoku Solver")
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
-# -- the image for the board
+# -- the image for the board. Also it has to be global for some reason
 board_img = PhotoImage(file="board.png")
-
-# -- houses all of the things in the button frame
-button_widgets = {}
-
-# -- houses all of the things in the left board frame
-lbw = {}
 
 def createStyles():
     styles = {
@@ -40,11 +34,10 @@ def createStyles():
 
 def createFrames():
     main_frame = ttk.Frame(root)
-
     frames = {
         "main": main_frame,
-        "button": ttk.Frame(main_frame, padding="5"),
-        "l_board": ttk.Frame(main_frame, padding="1"),
+        "button": ttk.Frame(main_frame, padding="10"),
+        "l_board": ttk.Frame(main_frame),
     }
 
     return frames
@@ -64,18 +57,26 @@ def createWidgets(frames):
 def gridAll(frames, wid):
     # -- gridding the frames
     frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
-    frames["button"].grid(column=2, row=1, sticky=N)
+    frames["button"].grid(column=2, row=1, sticky=S)
     frames["l_board"].grid(column=1, row=1, sticky=W)
 
     # -- gridding the widgets
     wid["lb"]["board"].grid(column=0, row=0, sticky=(N, S, E, W))
 
-    wid["but"]["start"].grid(column=0, row=5, sticky=S)
+    wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
 def setupThings():
+    # -- houses all the frames
     frames = createFrames()
+    # -- houses all the widgets
     wid = createWidgets(frames)
+    # -- houses all the styles
     styles = createStyles()
+
+    # # -- the image for the board
+    # board_img = PhotoImage(file="board.png")
+
+    # wid["lb"]["board"]["image"] = board_img
 
     # wid["lb"]["board"] = ttk.Label(frames["l_board"], image=board_img)
 
