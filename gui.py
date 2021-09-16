@@ -11,6 +11,8 @@ root.rowconfigure(0, weight=1)
 # -- the image for the board. Also it has to be global for some reason
 board_img = PhotoImage(file="board.png")
 
+# -- TODO: Distinguish the input board from the output board in a good way
+
 def createStyles():
     styles = {
         "s": ttk.Style(),
@@ -37,7 +39,8 @@ def createFrames():
     frames = {
         "main": main_frame,
         "button": ttk.Frame(main_frame, padding="10"),
-        "l_board": ttk.Frame(main_frame),
+        "l_board": ttk.Labelframe(main_frame, text="Input:"),
+        "r_board": ttk.Frame(main_frame),
     }
 
     return frames
@@ -45,11 +48,15 @@ def createFrames():
 def createWidgets(frames):
     wid = {
         "lb": {
+            "input_text": ttk.Label(frames["l_board"], text="hello", padding=""),
             "board": ttk.Label(frames["l_board"], image=board_img)
+        },
+        "rb": {
+            "board": ttk.Label(frames["r_board"], image=board_img)
         },
         "but": {
             "start": ttk.Button(frames["button"], text="Start")
-        }
+        },
     }
 
     return wid
@@ -57,11 +64,15 @@ def createWidgets(frames):
 def gridAll(frames, wid):
     # -- gridding the frames
     frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
-    frames["button"].grid(column=2, row=1, sticky=S)
     frames["l_board"].grid(column=1, row=1, sticky=W)
+    frames["button"].grid(column=2, row=1, sticky=S)
+    frames["r_board"].grid(column=3, row=1, sticky=E)
 
     # -- gridding the widgets
-    wid["lb"]["board"].grid(column=0, row=0, sticky=(N, S, E, W))
+    wid["lb"]["board"].grid(column=0, row=1, sticky=(N, S, E, W))
+    # wid["lb"]["input_text"].grid(column=0, row=0, sticky=(N, W))
+
+    wid["rb"]["board"].grid(column=0, row=0, sticky=(N, S, E, W))
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
