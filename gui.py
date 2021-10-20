@@ -107,6 +107,7 @@ def gridAll(frames, wid):
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
     # -- TODO: make the entries display right
+    # -- maybe try using column span for the image and put the entries in the same frame (look at test.py)
 
     count = 1
     # -- grid all entry boxes
