@@ -24,17 +24,23 @@ def grid():
     main_frame.grid(row=0, column=0)
     entry_frame.grid(row=0, column=0)
     
-    lbw["label"].grid(row=0, column=0, sticky=(N, S, E, W))
+    lbw["label"].grid(row=0, column=0, columnspan=9, rowspan=9 ,sticky=(N, S, E, W))
 
 create()
 grid()
 
-var = StringVar()
-e = ttk.Entry(main_frame, textvariable=var)
-e.grid(row=0, column=0)
+# var = StringVar()
+# e = ttk.Entry(main_frame, textvariable=var)
+# e.grid(row=0, column=0)
 
-var2 = StringVar()
-f = ttk.Entry(main_frame, textvariable=var2)
-f.grid(row=0, column=0, sticky=N)
+# var2 = StringVar()
+# f = ttk.Entry(main_frame, textvariable=var2)
+# f.grid(row=1, column=0)
+entries = []
+variables = []
+
+for i in range(9):
+    variables[i] = StringVar()
+    entries.append(ttk.Entry(entry_frame))
 
 root.mainloop()

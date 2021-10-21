@@ -48,24 +48,24 @@ def createFrames():
         "main": main_frame,
         "button": ttk.Frame(main_frame, padding="10"),
         "l_board": ttk.Frame(main_frame),
+        "text": ttk.Frame(main_frame),
         "r_board": ttk.Frame(main_frame),
     }
-
-    frames["entries"] = ttk.Frame(frames["l_board"])
 
     return frames
 
 def createWidgets(frames, styles):
     wid = {
         "lb": {
-            "input_text": ttk.Label(frames["l_board"], text="Input:", padding="20 1"),
             "board": ttk.Label(frames["l_board"], image=board_img)
         },
-        "en": [[]],
         "rb": {
-            "output_text": ttk.Label(frames["r_board"], text="Output:", padding="20 1"),
             "board": ttk.Label(frames["r_board"], image=board_img)
         },
+        "txt": {
+            "input_text": ttk.Label(frames["text"], text="Input:", padding="20 1"),
+            "output_text": ttk.Label(frames["text"], text="Output:", padding="20 1"),
+        }
         "but": {
             "start": ttk.Button(frames["button"], text="Start")
         },
@@ -73,7 +73,7 @@ def createWidgets(frames, styles):
 
     # -- check if the entry is a number
     def check(new):
-        return re.match('^[0-9]*$', new) is not None and len(new) <= 1
+        return re.match('^[1-9]*$', new) is not None and len(new) <= 1
 
     # -- a wrapper for the check function
     check_wrap = (root.register(check), "%P")
@@ -83,7 +83,7 @@ def createWidgets(frames, styles):
         # -- this might be hard to debug later
         wid["en"][0].append(StringVar())
         wid["en"].append(ttk.Entry(
-            frames["entries"], textvariable=wid["en"][0][i], validate="key",
+            frames["l_board"], textvariable=wid["en"][0][i], validate="key",
             validatecommand=check_wrap, style="entry.TEntry", width=1,
         ))
 
@@ -95,16 +95,17 @@ def gridAll(frames, wid):
     frames["l_board"].grid(column=1, row=1, sticky=W)
     frames["button"].grid(column=2, row=1, sticky=S)
     frames["r_board"].grid(column=3, row=1, sticky=E)
-    frames["entries"].grid(column=0, row=0)
+    frames["text"].grid(column=0, row=0, columnspan=3 sticky=N)
 
     # -- gridding the widgets
-    wid["lb"]["board"].grid(column=0, row=1, sticky=(N, S, E, W))
-    wid["lb"]["input_text"].grid(column=0, row=0, sticky=(N, W))
+    wid["lb"]["board"].grid(column=0, row=1, columnspan=9, rowspan=9, sticky=(N, S, E, W))
 
-    wid["rb"]["board"].grid(column=0, row=1, sticky=(N, S, E, W))
-    wid["rb"]["output_text"].grid(column=0, row=0, sticky=(N, W))
+    wid["rb"]["board"].grid(column=0, row=1, columnspan=9, rowspan=9, sticky=(N, S, E, W))
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
+
+    wid["txt"]["input_text"].grid(column=0, row=0, sticky=(N, W))
+    wid["txt"]["output_text"].grid(column=2, row=0, sticky=(N, W))
 
     # -- TODO: make the entries display right
     # -- maybe try using column span for the image and put the entries in the same frame (look at test.py)
@@ -114,7 +115,7 @@ def gridAll(frames, wid):
     for row in range(9):
         for col in range(9):
             # -- TODO: grid all of the entry boxes :)
-            wid["en"][count].grid(column=col, row=row)
+            wid["en"][count].grid(column=col+1, row=row+1)
             count += 1
     print(count)
 
