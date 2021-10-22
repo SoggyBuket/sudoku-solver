@@ -34,10 +34,8 @@ def createStyles():
     )
 
     styles["e"].configure(
-        "entry.TEntry",
-        background="red",
-        borderwidth=20,
-        relief="raised"
+        "TEntry",
+        font=25
     )
 
     return styles
@@ -85,7 +83,7 @@ def createWidgets(frames, styles):
         wid["en"][0].append(StringVar())
         wid["en"].append(ttk.Entry(
             frames["l_board"], textvariable=wid["en"][0][i], validate="key",
-            validatecommand=check_wrap, style="entry.TEntry", width=1,
+            validatecommand=check_wrap, style="TEntry", width=1, font=("TkDefaultFont 20")
         ))
 
     return wid
@@ -99,7 +97,7 @@ def gridAll(frames, wid):
     frames["text"].grid(column=1, row=0, columnspan=3, sticky=N)
 
     # -- gridding the widgets
-    wid["lb"]["board"].grid(column=0, row=1, columnspan=9, rowspan=9, sticky=(N, S, E, W))
+    wid["lb"]["board"].grid(column=0, row=0, columnspan=17, rowspan=21)
 
     wid["rb"]["board"].grid(column=0, row=1, columnspan=9, rowspan=9, sticky=(N, S, E, W))
 
@@ -116,11 +114,10 @@ def gridAll(frames, wid):
     for row in range(9):
         for col in range(9):
             wid["en"][count].grid(
-                column=col, row=row, ipady=10, ipadx=10, sticky=(N, W),
+                column=col+4, row=row+6, ipady=5, ipadx=7,
                 padx=1, pady=1
                 )
             count += 1
-    print(count)
 
 # -- I don't think I want this function when I start to interface with the main file
 def setupThings():
