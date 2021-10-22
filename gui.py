@@ -109,14 +109,16 @@ def gridAll(frames, wid):
     wid["txt"]["output_text"].grid(column=2, row=0, sticky=(N, W))
 
     # -- TODO: make the entries display right
-    # -- maybe try using column span for the image and put the entries in the same frame (look at test.py)
+    # -- put them in the right spot and up the size of the font
 
     count = 1
     # -- grid all entry boxes
     for row in range(9):
         for col in range(9):
-            # -- TODO: grid all of the entry boxes :)
-            wid["en"][count].grid(column=col+1, row=row+1)
+            wid["en"][count].grid(
+                column=col, row=row, ipady=10, ipadx=10, sticky=(N, W),
+                padx=1, pady=1
+                )
             count += 1
     print(count)
 
