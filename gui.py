@@ -66,13 +66,15 @@ def createWidgets(frames, styles):
         },
         "en": [[]],
         "txt": {
-            "input_text": ttk.Label(frames["text"], text="Input:", padding="20 1"),
-            "output_text": ttk.Label(frames["text"], text="Output:", padding="20 1"),
+            "input_text": ttk.Label(frames["l_board"], text="Input:", padding="20 1"),
+            "output_text": ttk.Label(frames["r_board"], text="Output:", padding="20 1"),
         },
         "but": {
             "start": ttk.Button(frames["button"], text="Start")
         },
     }
+
+    wid["but"]["start"].configure(command=run(wid))
 
     # -- check if the entry is a number
     def check(new):
@@ -87,8 +89,11 @@ def createWidgets(frames, styles):
         wid["en"][0].append(StringVar())
         wid["en"].append(ttk.Entry(
             frames["l_board"], textvariable=wid["en"][0][i], validate="key",
-            validatecommand=check_wrap, width=1, font=("TkDefaultFont 20")
+            validatecommand=check_wrap, width=1, font=("TkDefaultFont 20"), takefocus=1
         ))
+
+    # root.bind("<Return>", lambda e: wid["but"]["start"].invoke())
+    # root.bind("<KP_Enter>", lambda e: wid["but"]["start"].invoke())
 
     return wid
 
@@ -98,20 +103,20 @@ def gridAll(frames, wid):
     frames["l_board"].grid(column=1, row=1, sticky=W)
     frames["button"].grid(column=2, row=1, sticky=S)
     frames["r_board"].grid(column=3, row=1, sticky=E)
-    frames["text"].grid(column=1, row=0, columnspan=3)
+    frames["text"].grid(column=1, row=0, columnspan=3, sticky=(E, W))
     # frames["input_text"].grid(column=0, row=0, sticky=(N, W))
     # frames["output_text"].grid(column=1, row=0, sticky=(N, E))
 
     # -- gridding the widgets
     # -- these weird values make the entries line up almost perfect
-    wid["lb"]["board"].grid(column=0, row=0, columnspan=17, rowspan=21, sticky=(N, S, E, W))
+    wid["lb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
 
-    wid["rb"]["board"].grid(column=0, row=0, columnspan=9, rowspan=9, sticky=(N, S, E, W))
+    wid["rb"]["board"].grid(column=0, row=1, columnspan=9, rowspan=9, sticky=(N, S, E, W))
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
-    wid["txt"]["input_text"].grid(column=0, row=0, sticky=(N, W))
-    wid["txt"]["output_text"].grid(column=1, row=0, sticky=(N, E))
+    # wid["txt"]["input_text"].grid(column=0, row=0)
+    wid["txt"]["output_text"].grid(column=0, row=0)
 
     # -- TODO: make the entries display right
     # -- put them in the right spot and up the size of the font
@@ -138,7 +143,18 @@ def setupThings():
 
     # frames["l_board"].configure(style="main.TFrame")
 
+    # wid["en"][1].insert(0, 1)
+    # wid["en"][1].configure(state="disabled")
+
     gridAll(frames, wid)
+
+    wid["en"][1].configure(state="disabled")
+
+def run(wid):
+    print("run")
+
+    for i in range(len(wid["en"]) - 1):
+        wid["en"][i].configure(state="disabled")
 
 if __name__ == "__main__":
     setupThings()
