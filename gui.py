@@ -21,16 +21,17 @@ def createStyles():
     }
 
     styles["s"].configure(
-        "something.TFrame", 
+        "TLabel", 
         background="red", 
         relief="raised",
+        borderwidth=1,
     )
 
     styles["m"].configure(
-        "main.TFrame", 
+        "TFrame", 
         background="blue", 
         relief="groove", 
-        borderwidth=5, 
+        borderwidth=1, 
     )
 
     styles["e"].configure(
@@ -45,10 +46,13 @@ def createFrames():
     frames = {
         "main": main_frame,
         "button": ttk.Frame(main_frame, padding="10"),
-        "l_board": ttk.Frame(main_frame),
-        "text": ttk.Frame(main_frame, style="main.TFrame"),
-        "r_board": ttk.Frame(main_frame),
+        "l_board": ttk.Frame(main_frame, padding="1"),
+        "text": ttk.Frame(main_frame, padding="3"),
+        "r_board": ttk.Frame(main_frame, padding="1"),
     }
+
+    # frames["input_text"] = ttk.Frame(frames["text"])
+    # frames["output_text"] = ttk.Frame(frames["text"])
 
     return frames
 
@@ -83,7 +87,7 @@ def createWidgets(frames, styles):
         wid["en"][0].append(StringVar())
         wid["en"].append(ttk.Entry(
             frames["l_board"], textvariable=wid["en"][0][i], validate="key",
-            validatecommand=check_wrap, style="TEntry", width=1, font=("TkDefaultFont 20")
+            validatecommand=check_wrap, width=1, font=("TkDefaultFont 20")
         ))
 
     return wid
@@ -94,17 +98,20 @@ def gridAll(frames, wid):
     frames["l_board"].grid(column=1, row=1, sticky=W)
     frames["button"].grid(column=2, row=1, sticky=S)
     frames["r_board"].grid(column=3, row=1, sticky=E)
-    frames["text"].grid(column=1, row=0, columnspan=3, sticky=N)
+    frames["text"].grid(column=1, row=0, columnspan=3)
+    # frames["input_text"].grid(column=0, row=0, sticky=(N, W))
+    # frames["output_text"].grid(column=1, row=0, sticky=(N, E))
 
     # -- gridding the widgets
-    wid["lb"]["board"].grid(column=0, row=0, columnspan=17, rowspan=21)
+    # -- these weird values make the entries line up almost perfect
+    wid["lb"]["board"].grid(column=0, row=0, columnspan=17, rowspan=21, sticky=(N, S, E, W))
 
-    wid["rb"]["board"].grid(column=0, row=1, columnspan=9, rowspan=9, sticky=(N, S, E, W))
+    wid["rb"]["board"].grid(column=0, row=0, columnspan=9, rowspan=9, sticky=(N, S, E, W))
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
     wid["txt"]["input_text"].grid(column=0, row=0, sticky=(N, W))
-    wid["txt"]["output_text"].grid(column=2, row=0, sticky=(N, W))
+    wid["txt"]["output_text"].grid(column=1, row=0, sticky=(N, E))
 
     # -- TODO: make the entries display right
     # -- put them in the right spot and up the size of the font
@@ -113,6 +120,7 @@ def gridAll(frames, wid):
     # -- grid all entry boxes
     for row in range(9):
         for col in range(9):
+            # -- these weird values make the entries line up almost perfect
             wid["en"][count].grid(
                 column=col+4, row=row+6, ipady=5, ipadx=7,
                 padx=1, pady=1
