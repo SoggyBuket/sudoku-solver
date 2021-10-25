@@ -74,7 +74,7 @@ def createWidgets(frames, styles):
         },
     }
 
-    wid["but"]["start"].configure(command=run(wid))
+    # wid["but"]["start"].configure(command=run(wid))
 
     # -- check if the entry is a number
     def check(new):
@@ -91,9 +91,6 @@ def createWidgets(frames, styles):
             frames["l_board"], textvariable=wid["en"][0][i], validate="key",
             validatecommand=check_wrap, width=1, font=("TkDefaultFont 20"), takefocus=1
         ))
-
-    # root.bind("<Return>", lambda e: wid["but"]["start"].invoke())
-    # root.bind("<KP_Enter>", lambda e: wid["but"]["start"].invoke())
 
     return wid
 
@@ -140,21 +137,21 @@ def setupThings():
     styles = createStyles()
     # -- houses all the widgets
     wid = createWidgets(frames, styles)
-
-    # frames["l_board"].configure(style="main.TFrame")
-
-    # wid["en"][1].insert(0, 1)
-    # wid["en"][1].configure(state="disabled")
-
+    # -- grid all of the widgets
     gridAll(frames, wid)
 
-    wid["en"][1].configure(state="disabled")
+    # -- run 'run' when button is pressed
+    wid["but"]["start"].config(command=lambda: run(wid))
+    # root.bind("<Return>", lambda e: wid["but"]["start"].invoke())
+    # root.bind("<KP_Enter>", lambda e: wid["but"]["start"].invoke())
 
 def run(wid):
     print("run")
 
     for i in range(len(wid["en"]) - 1):
-        wid["en"][i].configure(state="disabled")
+        wid["en"][i+1].configure(state="disabled")
+
+    print(wid["en"][1])
 
 if __name__ == "__main__":
     setupThings()
@@ -167,14 +164,6 @@ if __name__ == "__main__":
 # -- 2 numbers means the first number on the left and right, and the second top
 #    and bottom
 # -- 4 numbers means left, top, right, bottom
-# button_frame = ttk.Frame(main_frame, padding="5")
-# button_frame.grid(column=1, row=0, sticky=N)
-
-# lboard_frame = ttk.Frame(main_frame, padding="3")
-# lboard_frame.grid(column=0, row=0, sticky=W)
-
-# rboard_frame = ttk.Frame(main_frame, padding="3")
-# rboard_frame.grid(column=2, row=0, sticky=E)
 
 
 
