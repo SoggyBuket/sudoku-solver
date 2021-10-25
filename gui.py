@@ -48,11 +48,10 @@ def createFrames():
         "button": ttk.Frame(main_frame, padding="10"),
         "l_board": ttk.Frame(main_frame, padding="1"),
         "text": ttk.Frame(main_frame, padding="3"),
+        "input_text": ttk.Frame(main_frame, padding="1"),
+        "output_text": ttk.Frame(main_frame, padding="1"),
         "r_board": ttk.Frame(main_frame, padding="1"),
     }
-
-    # frames["input_text"] = ttk.Frame(frames["text"])
-    # frames["output_text"] = ttk.Frame(frames["text"])
 
     return frames
 
@@ -66,8 +65,8 @@ def createWidgets(frames, styles):
         },
         "en": [[]],
         "txt": {
-            "input_text": ttk.Label(frames["l_board"], text="Input:", padding="20 1"),
-            "output_text": ttk.Label(frames["r_board"], text="Output:", padding="20 1"),
+            "input_text": ttk.Label(frames["input_text"], text="Input:", padding="20 1"),
+            "output_text": ttk.Label(frames["output_text"], text="Output:", padding="20 1"),
         },
         "but": {
             "start": ttk.Button(frames["button"], text="Start")
@@ -101,8 +100,8 @@ def gridAll(frames, wid):
     frames["button"].grid(column=2, row=1, sticky=S)
     frames["r_board"].grid(column=3, row=1, sticky=E)
     frames["text"].grid(column=1, row=0, columnspan=3, sticky=(E, W))
-    # frames["input_text"].grid(column=0, row=0, sticky=(N, W))
-    # frames["output_text"].grid(column=1, row=0, sticky=(N, E))
+    frames["input_text"].grid(column=1, row=0, sticky=(N, W))
+    frames["output_text"].grid(column=3, row=0, sticky=(N, W))
 
     # -- gridding the widgets
     # -- these weird values make the entries line up almost perfect
@@ -112,7 +111,7 @@ def gridAll(frames, wid):
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
-    # wid["txt"]["input_text"].grid(column=0, row=0)
+    wid["txt"]["input_text"].grid(column=0, row=0)
     wid["txt"]["output_text"].grid(column=0, row=0)
 
     # -- TODO: make the entries display right
