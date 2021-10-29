@@ -36,7 +36,11 @@ def createStyles():
 
     styles["e"].configure(
         "TEntry",
-        font=25
+        # background=0xFFFFFF,
+        border="red",
+        # relief="raised",
+        font=("TkDefaultFont 20"),
+        borderwidth=2,
     )
 
     return styles
@@ -64,6 +68,7 @@ def createWidgets(frames, styles):
             "board": ttk.Label(frames["r_board"], image=board_img)
         },
         "en": [[]],
+        "la": [[]],
         "txt": {
             "input_text": ttk.Label(frames["input_text"], text="Input:", padding="20 1"),
             "output_text": ttk.Label(frames["output_text"], text="Output:", padding="20 1"),
@@ -91,6 +96,15 @@ def createWidgets(frames, styles):
             validatecommand=check_wrap, width=1, font=("TkDefaultFont 20"), takefocus=1
         ))
 
+    # -- make all the labels for the output board
+    for i in range(81):
+        wid["la"][0].append(StringVar())
+        wid["la"][0][i].set("0")
+        wid["la"].append(ttk.Label(
+            frames["r_board"], textvariable=wid["la"][0][i], font=("TkDefaultFont 25"),
+            width=1
+        ))
+
     return wid
 
 def gridAll(frames, wid):
@@ -107,7 +121,7 @@ def gridAll(frames, wid):
     # -- these weird values make the entries line up almost perfect
     wid["lb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
 
-    wid["rb"]["board"].grid(column=0, row=1, columnspan=9, rowspan=9, sticky=(N, S, E, W))
+    wid["rb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
@@ -126,7 +140,15 @@ def gridAll(frames, wid):
                 column=col+4, row=row+6, ipady=5, ipadx=7,
                 padx=1, pady=1
                 )
+
+            wid["la"][count].grid(
+                column=col+4, row=row+6, ipady=5, ipadx=10,
+                padx=1, pady=1
+            )
+
             count += 1
+
+
 
 # -- I don't think I want this function when I start to interface with the main file
 def setupThings():
