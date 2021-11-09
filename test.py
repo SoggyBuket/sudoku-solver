@@ -39,8 +39,10 @@ grid()
 entries = []
 variables = []
 
-for i in range(9):
-    variables[i] = StringVar()
-    entries.append(ttk.Entry(entry_frame))
+for i in range(18):
+    hor = i//3
+    ver = i%3
+
+    print(f"Hor: {hor}  Ver: {ver}")
 
 root.mainloop()

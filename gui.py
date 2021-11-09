@@ -17,30 +17,28 @@ def createStyles():
     styles = {
         "s": ttk.Style(),
         "m": ttk.Style(),
-        "e": ttk.Style()
+        "e": ttk.Style(),
+        "lb": ttk.Style(),
     }
 
     styles["s"].configure(
-        "TLabel", 
-        background="red", 
-        relief="raised",
+        "TLabel", background="red", relief="raised",
         borderwidth=1,
     )
 
     styles["m"].configure(
-        "TFrame", 
-        background="blue", 
-        relief="groove", 
+        "TFrame", background="blue", relief="groove", 
         borderwidth=1, 
     )
 
     styles["e"].configure(
-        "TEntry",
-        # background=0xFFFFFF,
-        border="red",
-        # relief="raised",
-        font=("TkDefaultFont 20"),
+        "e_box.TFrame", background="red", relief="solid",
         borderwidth=2,
+    )
+
+    styles["lb"].configure(
+        "l_board.TFrame", background="black", relief="solid", 
+        borderwidth=3
     )
 
     return styles
@@ -50,12 +48,18 @@ def createFrames():
     frames = {
         "main": main_frame,
         "button": ttk.Frame(main_frame, padding="10"),
-        "l_board": ttk.Frame(main_frame, padding="1"),
+        "l_board": ttk.Frame(main_frame, padding="3", style="l_board.TFrame"),
+        "e_boxes": [],
+        "l_boxes": [],
         "text": ttk.Frame(main_frame, padding="3"),
         "input_text": ttk.Frame(main_frame, padding="1"),
         "output_text": ttk.Frame(main_frame, padding="1"),
         "r_board": ttk.Frame(main_frame, padding="1"),
     }
+
+    for i in range(9):
+        frames["e_boxes"].append(ttk.Frame(frames["l_board"], padding="1", style="e_box.TFrame"))
+        # frames["l_boxes"].append(ttk.Frame(frames["r_board"], padding="1", style="l_box.TFram"))
 
     return frames
 
@@ -88,21 +92,23 @@ def createWidgets(frames, styles):
     check_wrap = (root.register(check), "%P")
 
     # -- make all entries
-    for i in range(81):
-        # -- this might be hard to debug later
-        wid["en"][0].append(StringVar())
-        wid["en"].append(ttk.Entry(
-            frames["l_board"], textvariable=wid["en"][0][i], validate="key",
-            validatecommand=check_wrap, width=1, font=("TkDefaultFont 20"), takefocus=1
-        ))
+    for box in range(len(frames["e_boxes"])):
+        for i in range(9):
+            # -- this might be hard to debug later
+            wid["en"][0].append(StringVar())
+            wid["en"].append(ttk.Entry(
+                frames["e_boxes"][box], textvariable=wid["en"][0][i+(9*box)], validate="key",
+                validatecommand=check_wrap, width=1, font=("TkDefaultFont 40"), takefocus=1,
+                justify=CENTER, style="TEntry"
+            ))
 
     # -- make all the labels for the output board
     for i in range(81):
         wid["la"][0].append(StringVar())
         wid["la"][0][i].set("0")
         wid["la"].append(ttk.Label(
-            frames["r_board"], textvariable=wid["la"][0][i], font=("TkDefaultFont 25"),
-            width=1
+            frames["r_board"], textvariable=wid["la"][0][i], font=("TkDefaultFont 40"),
+            width=1, justify=RIGHT
         ))
 
     return wid
@@ -117,11 +123,14 @@ def gridAll(frames, wid):
     frames["input_text"].grid(column=1, row=0, sticky=(N, W))
     frames["output_text"].grid(column=3, row=0, sticky=(N, W))
 
+    for i in range(len(frames["e_boxes"])):
+        frames["e_boxes"][i].grid(column=i%3, row=i//3)
+
     # -- gridding the widgets
     # -- these weird values make the entries line up almost perfect
-    wid["lb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
+    # wid["lb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
 
-    wid["rb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
+    # wid["rb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
 
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
@@ -133,16 +142,15 @@ def gridAll(frames, wid):
 
     count = 1
     # -- grid all entry boxes
-    for row in range(9):
-        for col in range(9):
-            # -- these weird values make the entries line up almost perfect
+    for box in range(len(frames["e_boxes"])):
+        for i in range(9): # -- size of each box
             wid["en"][count].grid(
-                column=col+4, row=row+6, ipady=5, ipadx=7,
-                padx=1, pady=1
+                column=i%3, row=i//3, ipadx=9,
+                padx=3, pady=3
                 )
 
             wid["la"][count].grid(
-                column=col+4, row=row+6, ipady=5, ipadx=10,
+                column=i%3, row=i//3, ipadx=10,
                 padx=1, pady=1
             )
 
