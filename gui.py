@@ -18,7 +18,7 @@ def createStyles():
         "s": ttk.Style(),
         "m": ttk.Style(),
         "e": ttk.Style(),
-        "lb": ttk.Style(),
+        "b": ttk.Style(),
     }
 
     styles["s"].configure(
@@ -32,13 +32,13 @@ def createStyles():
     )
 
     styles["e"].configure(
-        "e_box.TFrame", background="red", relief="solid",
+        "box.TFrame", background="black", relief="solid",
         borderwidth=2,
     )
 
-    styles["lb"].configure(
-        "l_board.TFrame", background="black", relief="solid", 
-        borderwidth=3
+    styles["b"].configure(
+        "board.TFrame", background="black", relief="solid", 
+        borderwidth=3,
     )
 
     return styles
@@ -48,7 +48,7 @@ def createFrames():
     frames = {
         "main": main_frame,
         "button": ttk.Frame(main_frame, padding="10"),
-        "l_board": ttk.Frame(main_frame, padding="3", style="l_board.TFrame"),
+        "l_board": ttk.Frame(main_frame, padding="3", style="board.TFrame"),
         "e_boxes": [],
         "l_boxes": [],
         "text": ttk.Frame(main_frame, padding="3"),
@@ -58,8 +58,8 @@ def createFrames():
     }
 
     for i in range(9):
-        frames["e_boxes"].append(ttk.Frame(frames["l_board"], padding="1", style="e_box.TFrame"))
-        # frames["l_boxes"].append(ttk.Frame(frames["r_board"], padding="1", style="l_box.TFram"))
+        frames["e_boxes"].append(ttk.Frame(frames["l_board"], padding="1", style="box.TFrame"))
+        frames["l_boxes"].append(ttk.Frame(frames["r_board"], padding="1", style="box.TFrame"))
 
     return frames
 
