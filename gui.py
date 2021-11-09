@@ -21,10 +21,10 @@ def createStyles():
         "b": ttk.Style(),
     }
 
-    styles["s"].configure(
-        "TLabel", background="red", relief="raised",
-        borderwidth=1,
-    )
+    # styles["s"].configure(
+    #     "TLabel", background="black", relief="solid",
+    #     borderwidth=1,
+    # )
 
     styles["m"].configure(
         "TFrame", background="blue", relief="groove", 
@@ -49,12 +49,12 @@ def createFrames():
         "main": main_frame,
         "button": ttk.Frame(main_frame, padding="10"),
         "l_board": ttk.Frame(main_frame, padding="3", style="board.TFrame"),
+        "r_board": ttk.Frame(main_frame, padding="3", style="board.TFrame"),
         "e_boxes": [],
         "l_boxes": [],
         "text": ttk.Frame(main_frame, padding="3"),
         "input_text": ttk.Frame(main_frame, padding="1"),
         "output_text": ttk.Frame(main_frame, padding="1"),
-        "r_board": ttk.Frame(main_frame, padding="1"),
     }
 
     for i in range(9):
@@ -98,18 +98,19 @@ def createWidgets(frames, styles):
             wid["en"][0].append(StringVar())
             wid["en"].append(ttk.Entry(
                 frames["e_boxes"][box], textvariable=wid["en"][0][i+(9*box)], validate="key",
-                validatecommand=check_wrap, width=1, font=("TkDefaultFont 40"), takefocus=1,
+                validatecommand=check_wrap, width=1, font=("TkDefaultFont 42"), takefocus=1,
                 justify=CENTER, style="TEntry"
             ))
 
     # -- make all the labels for the output board
-    for i in range(81):
-        wid["la"][0].append(StringVar())
-        wid["la"][0][i].set("0")
-        wid["la"].append(ttk.Label(
-            frames["r_board"], textvariable=wid["la"][0][i], font=("TkDefaultFont 40"),
-            width=1, justify=RIGHT
-        ))
+    for box in range(len(frames["l_boxes"])):
+        for i in range(9):
+            wid["la"][0].append(StringVar())
+            wid["la"][0][i+(9*box)].set("0")
+            wid["la"].append(ttk.Label(
+                frames["l_boxes"][box], textvariable=wid["la"][0][i+(9*box)], font=("TkDefaultFont 40"),
+                width=1, justify=RIGHT
+            ))
 
     return wid
 
@@ -125,6 +126,7 @@ def gridAll(frames, wid):
 
     for i in range(len(frames["e_boxes"])):
         frames["e_boxes"][i].grid(column=i%3, row=i//3)
+        frames["l_boxes"][i].grid(column=i%3, row=i//3)
 
     # -- gridding the widgets
     # -- these weird values make the entries line up almost perfect
@@ -150,8 +152,8 @@ def gridAll(frames, wid):
                 )
 
             wid["la"][count].grid(
-                column=i%3, row=i//3, ipadx=10,
-                padx=1, pady=1
+                column=i%3, row=i//3,
+                padx=17, pady=8
             )
 
             count += 1
@@ -175,12 +177,8 @@ def setupThings():
     # root.bind("<KP_Enter>", lambda e: wid["but"]["start"].invoke())
 
 def run(wid):
-    print("run")
-
     for i in range(len(wid["en"]) - 1):
         wid["en"][i+1].configure(state="disabled")
-
-    print(wid["en"][1])
 
 if __name__ == "__main__":
     setupThings()
