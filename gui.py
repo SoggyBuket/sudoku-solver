@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 
+# -- regex
 import re
 
 root = Tk()
@@ -82,8 +83,6 @@ def createWidgets(frames, styles):
         },
     }
 
-    # wid["but"]["start"].configure(command=run(wid))
-
     # -- check if the entry is a number
     def check(new):
         return re.match('^[1-9]*$', new) is not None and len(new) <= 1
@@ -124,26 +123,19 @@ def gridAll(frames, wid):
     frames["input_text"].grid(column=1, row=0, sticky=(N, W))
     frames["output_text"].grid(column=3, row=0, sticky=(N, W))
 
+    # -- grid the boxes for the entries and labels
     for i in range(len(frames["e_boxes"])):
         frames["e_boxes"][i].grid(column=i%3, row=i//3)
         frames["l_boxes"][i].grid(column=i%3, row=i//3)
 
     # -- gridding the widgets
-    # -- these weird values make the entries line up almost perfect
-    # wid["lb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
-
-    # wid["rb"]["board"].grid(column=0, row=1, columnspan=17, rowspan=19, sticky=(N, S, E, W))
-
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
 
     wid["txt"]["input_text"].grid(column=0, row=0)
     wid["txt"]["output_text"].grid(column=0, row=0)
 
-    # -- TODO: make the entries display right
-    # -- put them in the right spot and up the size of the font
-
     count = 1
-    # -- grid all entry boxes
+    # -- grid all entry and labels in the boxes
     for box in range(len(frames["e_boxes"])):
         for i in range(9): # -- size of each box
             wid["en"][count].grid(
@@ -164,7 +156,7 @@ def gridAll(frames, wid):
 def setupThings():
     # -- houses all the frames
     frames = createFrames()
-    # -- houses all the styles
+    # -- all the styles are global already I think so I don't know why I do this
     styles = createStyles()
     # -- houses all the widgets
     wid = createWidgets(frames, styles)
@@ -182,9 +174,6 @@ def run(wid):
 
 if __name__ == "__main__":
     setupThings()
-
-# main_frame = ttk.Frame(root)
-# main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
 
 # -- the padding is very interesting:
 # -- 1 number means that amount of pixels on all sides
@@ -206,8 +195,3 @@ root.mainloop()
 #    in it. Not very "Pythonic" but it should work if need be
 # -- will need to use validate for the numbers on the sudoku to make sure they are 1-9
 #    or space as an empty square
-
-
-# IDEAS:
-# -- maybe have 2 boards; one on the left for inputting data and one on the right for
-#    what the computer outputs so you can compare the original to the solved puzzle
