@@ -3,19 +3,19 @@
 #  - sudoku solving logic
 #  - maybe some other things?
 
-board = [
-    [0,0,9,0,8,0,0,2,7],
-    [2,0,5,4,0,0,3,0,0],
-    [0,0,0,1,2,0,0,9,0],
-    [0,9,0,3,0,0,6,8,0],
-    [0,3,2,0,0,0,0,5,0],
-    [0,0,8,9,0,2,0,0,1],
-    [0,0,0,6,5,0,0,1,3],
-    [0,8,6,2,1,0,5,0,9],
-    [0,2,1,0,0,0,8,4,0],
-]
+# board = [
+#     [0,0,9,0,8,0,0,2,7],
+#     [2,0,5,4,0,0,3,0,0],
+#     [0,0,0,1,2,0,0,9,0],
+#     [0,9,0,3,0,0,6,8,0],
+#     [0,3,2,0,0,0,0,5,0],
+#     [0,0,8,9,0,2,0,0,1],
+#     [0,0,0,6,5,0,0,1,3],
+#     [0,8,6,2,1,0,5,0,9],
+#     [0,2,1,0,0,0,8,4,0],
+# ]
 
-boxes = []
+# boxes = []
 
 # -- 0 is nothing is there. 1-9 is the number there. <10 is not allowed
 # -- maybe <10 are numbers given by the user initally
@@ -34,6 +34,7 @@ def getBoxes():
     """Get all boxes for the Sudoku board"""
     x_offset = 0
     y_offset = 0
+    boxes = []
 
     for i in range(3):
         current_row = []
@@ -49,7 +50,9 @@ def getBoxes():
         y_offset += 3
         x_offset = 0
 
-def checkPossibleNums(x, y):
+    return boxes
+
+def checkPossibleNums(board, boxes, x, y):
     """Check and see what a square could be"""
     # x and y are the absolute x and y positions on the whole board
 
@@ -76,25 +79,27 @@ def checkPossibleNums(x, y):
 
     return possible_nums
 
-def getAllPossibleNums():
+def getAllPossibleNums(board):
     """
     Find the possible numbers each square on the board could be and
     add a list of them where the number is
     """
-    getBoxes()
+    boxes = getBoxes()
 
     for i in range(81):
         # this works because of how division with 9 works
         hor = i//9
         ver = i%9
 
-        possible_nums = []
-
         if board[hor][ver] == 0:
-            possible_nums = checkPossibleNums(hor, ver)
+            possible_nums = checkPossibleNums(board, boxes, hor, ver)
+
+            possible_nums = []
         
-        if len(possible_nums) < 1:
-            print("Puzzle unsolvable :(")
-            return False
-        else:
-            board[hor][ver] = possible_nums
+            if len(possible_nums) < 1:
+                print("Puzzle unsolvable :(")
+                return False
+            else:
+                board[hor][ver] = possible_nums
+
+    return board
