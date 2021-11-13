@@ -4,15 +4,17 @@ from tkinter import ttk
 # -- regex
 import re
 
-root = Tk()
-root.title("Sudoku Solver")
-# root.geometry("600x600")
-
-root.columnconfigure(0, weight=1)
-root.rowconfigure(0, weight=1)
-
 # -- the image for the board. Also it has to be global for some reason
-board_img = PhotoImage(file="img/board.png")
+# board_img = PhotoImage(file="img/board.png")
+
+def rootInit():
+    root = Tk()
+    root.title("Sudoku Solver")
+    # root.geometry("600x600")
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+
+    return root
 
 def createStyles():
     styles = {
@@ -44,7 +46,7 @@ def createStyles():
 
     return styles
 
-def createFrames():
+def createFrames(root):
     main_frame = ttk.Frame(root)
     frames = {
         "main": main_frame,
@@ -64,13 +66,13 @@ def createFrames():
 
     return frames
 
-def createWidgets(frames, styles):
+def createWidgets(root, frames, styles):
     wid = {
         "lb": {
-            "board": ttk.Label(frames["l_board"], image=board_img)
+            # "board": ttk.Label(frames["l_board"], image=board_img)
         },
         "rb": {
-            "board": ttk.Label(frames["r_board"], image=board_img)
+            # "board": ttk.Label(frames["r_board"], image=board_img)
         },
         "en": [[]],
         "la": [[]],
@@ -154,12 +156,13 @@ def gridAll(frames, wid):
 
 # -- I don't think I want this function when I start to interface with the main file
 def setupThings():
+    root = rootInit()
     # -- houses all the frames
-    frames = createFrames()
+    frames = createFrames(root)
     # -- all the styles are global already I think so I don't know why I do this
     styles = createStyles()
     # -- houses all the widgets
-    wid = createWidgets(frames, styles)
+    wid = createWidgets(root, frames, styles)
     # -- grid all of the widgets
     gridAll(frames, wid)
 
@@ -171,6 +174,8 @@ def setupThings():
     # for i in range(len(wid["en"][0])):
     #     en_val = wid["en"][0][i].get()
     #     la_val = wid["la"][0][i].get()
+
+    return root
 
 def run(wid):
     count = 0
@@ -184,7 +189,8 @@ def run(wid):
             wid["la"][0][i].set(wid["en"][0][i].get())
 
 if __name__ == "__main__":
-    setupThings()
+    root = setupThings()
+    root.mainloop()
 
 # -- the padding is very interesting:
 # -- 1 number means that amount of pixels on all sides
@@ -194,7 +200,7 @@ if __name__ == "__main__":
 
 
 
-root.mainloop()
+# root.mainloop()
 
 # NOTES:
 # -- to have borders, you need the 'borderwidth' option set to 2, then you can use 
