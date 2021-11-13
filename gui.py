@@ -168,9 +168,20 @@ def setupThings():
     # root.bind("<Return>", lambda e: wid["but"]["start"].invoke())
     # root.bind("<KP_Enter>", lambda e: wid["but"]["start"].invoke())
 
+    # for i in range(len(wid["en"][0])):
+    #     en_val = wid["en"][0][i].get()
+    #     la_val = wid["la"][0][i].get()
+
 def run(wid):
-    for i in range(len(wid["en"]) - 1):
-        wid["en"][i+1].configure(state="disabled")
+    count = 0
+    for i in range(len(wid["en"][0])):
+        if wid["en"][0][i].get():
+            count += 1
+
+    if count >= 17:
+        for i in range(len(wid["en"]) - 1):
+            wid["en"][i+1].configure(state="disabled")
+            wid["la"][0][i].set(wid["en"][0][i].get())
 
 if __name__ == "__main__":
     setupThings()
