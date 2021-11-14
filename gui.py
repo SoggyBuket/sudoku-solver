@@ -152,6 +152,21 @@ def gridAll(frames, wid):
 
             count += 1
 
+def setDefaultBoard(wid):
+    d_board = [
+        1, 0, 0, 0, 2, 0, 0, 0, 3, 
+        4, 0, 0, 0, 5, 0, 0, 0, 6, 
+        7, 0, 0, 0, 8, 0, 0, 0, 9, 
+        1, 0, 0, 0, 0, 2, 3, 0, 0, 
+        4, 0, 0, 0, 0, 5, 6, 0, 0, 
+        7, 0, 0, 0, 0, 8, 9, 0, 0, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0
+    ]
+
+    for i in range(len(wid["en"][0])):
+        wid["en"][0][i].set(d_board[i])
 
 
 # -- I don't think I want this function when I start to interface with the main file
@@ -178,15 +193,24 @@ def setupThings():
     return root
 
 def run(wid):
-    count = 0
-    for i in range(len(wid["en"][0])):
-        if wid["en"][0][i].get():
-            count += 1
+    board = []
 
-    if count >= 17:
-        for i in range(len(wid["en"]) - 1):
-            wid["en"][i+1].configure(state="disabled")
-            wid["la"][0][i].set(wid["en"][0][i].get())
+    for box in range(9):
+        board.append([])
+        for cell in range(9):
+            count = cell + box*9
+
+            en = wid["en"][0][count].get()
+
+            wid["en"][count+1].configure(state="disabled")
+
+            if en.isdigit():
+                wid["la"][0][count].set(en)
+            
+            board[box].append(int(wid["la"][0][count].get()))
+
+    print(board)
+    return board
 
 if __name__ == "__main__":
     root = setupThings()

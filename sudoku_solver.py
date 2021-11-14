@@ -6,11 +6,23 @@ def main():
     frames = g.createFrames(root)
     styles = g.createStyles()
     wid = g.createWidgets(root, frames, styles)
+    g.setDefaultBoard(wid)
     g.gridAll(frames, wid)
 
-    wid["but"]["start"].config(command=lambda: g.run(wid))
+    wid["but"]["start"].config(command=lambda: start(wid))
 
     return root
+
+def start(wid):
+    count = 0
+    for i in range(len(wid["en"][0])):
+        if wid["en"][0][i].get():
+            count += 1
+
+    if count >= 17:
+        board = g.run(wid)
+        board = l.getAllPossibleNums(board)
+        print(board)
 
 
 if __name__ == "__main__":

@@ -30,11 +30,15 @@
 #  number is 1, an put that in the right spot
 #    - each time, recheck all the numbers and update the total values
 
-def getBoxes():
+def getBoxes(board):
     """Get all boxes for the Sudoku board"""
     x_offset = 0
     y_offset = 0
-    boxes = []
+    boxes = [
+        [], [], [], 
+        [], [], [], 
+        [], [], [],
+    ]
 
     for i in range(3):
         current_row = []
@@ -49,6 +53,9 @@ def getBoxes():
         boxes.append(current_row)
         y_offset += 3
         x_offset = 0
+
+    # for i in range(9):
+
 
     return boxes
 
@@ -84,14 +91,14 @@ def getAllPossibleNums(board):
     Find the possible numbers each square on the board could be and
     add a list of them where the number is
     """
-    boxes = getBoxes()
+    boxes = getBoxes(board)
 
     for i in range(81):
         # this works because of how division with 9 works
-        hor = i//9
-        ver = i%9
+        row = i//9
+        col = i%9
 
-        if board[hor][ver] == 0:
+        if board[col + row*9] == 0:
             possible_nums = checkPossibleNums(board, boxes, hor, ver)
 
             possible_nums = []
