@@ -21,6 +21,7 @@ def start(wid):
 
     if count >= 17:
         board, boxes = g.run(wid)
+        print(boxes)
         l.getAllPossibleNums(board, boxes)
         # print(board)
 

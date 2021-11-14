@@ -59,26 +59,57 @@ def getBoxes(board):
 
     return boxes
 
-# def checkIfBad(board, boxes):
+def checkIfBad(board, boxes):
+    def repeats(iterable):
+        for j in range(1, len(iterable)+1):
+            if iterable.count(j) > 1:
+                return True
+        
+        return False
+        
+    for i in range(9):
+        # col = repeats(getCol(board, i))
+        # row = repeats(board[i])
+        # box = repeats(boxes[i])
+
+        # if col != False:
+        #     print(f"col {i}  | {col}")
+        #     return True
+        # elif row != False:
+        #     print(f"row {i}  | {row}")
+        #     return True
+        # elif box != False:
+        #     print(f"box {i}  | {box}")
+        #     return True
+
+        if repeats(getCol(board, i)) or repeats(board[i]) or repeats(boxes[i]):
+            return True
+
+    return False
+
+def getCol(board, y):
+    def getColumn(i):
+        return i[y]
+
+    col = list(map(getColumn, board))
+
+    return col
 
 def checkPossibleNums(board, boxes, x, y):
     """Check and see what a square could be"""
     # x and y are the absolute x and y positions on the whole board
 
-    def getColumn(i):
-        return i[y]
-
     row = board[x]
-    col = list(map(getColumn, board))
+    col = getCol(board, y)
     box = boxes[y//3 + (3 * (x//3))]
 
     pos = board[x][y]
 
-    print(f"x, y: {x}, {y}")
-    print(f"Row: {row}")
-    print(f"Column: {col}")
-    print(f"Box: {box}")
-    print(f"Num/pos: {pos}")
+    # print(f"x, y: {x}, {y}")
+    # print(f"Row: {row}")
+    # print(f"Column: {col}")
+    # print(f"Box: {box}")
+    # print(f"Num/pos: {pos}")
 
     possible_nums = []
 
@@ -95,6 +126,10 @@ def getAllPossibleNums(board, boxes):
     """
     # boxes = getBoxes(board)
 
+    if checkIfBad(board, boxes):
+        print("Bad puzzle :(")
+        return False
+
     for row in range(len(board)):
         for col in range(9):
             if board[row][col] == 0:
@@ -102,8 +137,6 @@ def getAllPossibleNums(board, boxes):
             
                 if len(possible_nums) < 1:
                     print("Puzzle unsolvable :(")
-                    print(f"row: {row}  col: {col}")
-                    print(possible_nums)
                     return False
                 else:
                     board[row][col] = possible_nums
