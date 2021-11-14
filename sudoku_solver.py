@@ -20,9 +20,9 @@ def start(wid):
             count += 1
 
     if count >= 17:
-        board = g.run(wid)
-        board = l.getAllPossibleNums(board)
-        print(board)
+        board, boxes = g.run(wid)
+        l.getAllPossibleNums(board, boxes)
+        # print(board)
 
 
 if __name__ == "__main__":

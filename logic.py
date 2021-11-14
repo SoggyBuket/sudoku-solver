@@ -59,53 +59,53 @@ def getBoxes(board):
 
     return boxes
 
-def checkPossibleNums(board, box, cell):
+# def checkIfBad(board, boxes):
+
+def checkPossibleNums(board, boxes, x, y):
     """Check and see what a square could be"""
     # x and y are the absolute x and y positions on the whole board
 
-    # def getColumn():
-        
+    def getColumn(i):
+        return i[y]
 
+    row = board[x]
+    col = list(map(getColumn, board))
+    box = boxes[y//3 + (3 * (x//3))]
 
-    # row = board[x]
-    # column = list(map(getColumn, board))
-    # box = boxes[x//3][y//3]
-    # flat_box = box[0]+box[1]+box[2]
-    # pos = board[x][y]
+    pos = board[x][y]
 
+    print(f"x, y: {x}, {y}")
+    print(f"Row: {row}")
+    print(f"Column: {col}")
+    print(f"Box: {box}")
+    print(f"Num/pos: {pos}")
 
     possible_nums = []
 
-    # print(f"x, y: {x}, {y}")
-    # print(f"Row: {row}")
-    # print(f"Column: {column}")
-    # print(f"Box: {box}")
-    # print(f"Num/pos: {pos}")
-
     for num in range(1, 10):
-        if not num in row and not num in column and not num in flat_box:
+        if not num in row and not num in col and not num in box:
             possible_nums.append(num)
 
     return possible_nums
 
-def getAllPossibleNums(board):
+def getAllPossibleNums(board, boxes):
     """
     Find the possible numbers each square on the board could be and
     add a list of them where the number is
     """
     # boxes = getBoxes(board)
 
-    for box in range(len(board)):
-        for cell in range(9):
-            if board[box][cell] == 0:
-                possible_nums = checkPossibleNums(board, box, cell)
-
-                possible_nums = []
+    for row in range(len(board)):
+        for col in range(9):
+            if board[row][col] == 0:
+                possible_nums = checkPossibleNums(board, boxes, row, col)
             
                 if len(possible_nums) < 1:
                     print("Puzzle unsolvable :(")
+                    print(f"row: {row}  col: {col}")
+                    print(possible_nums)
                     return False
                 else:
-                    board[hor][ver] = possible_nums
+                    board[row][col] = possible_nums
 
     return board

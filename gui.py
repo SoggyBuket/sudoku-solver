@@ -194,6 +194,7 @@ def setupThings():
 
 def run(wid):
     board = []
+    boxes = []
 
     for row in range(9):
         board.append([])
@@ -202,6 +203,7 @@ def run(wid):
 
 
     for box in range(9):
+        boxes.append([])
         for cell in range(9):
             count = cell + (9 * box)
 
@@ -213,10 +215,11 @@ def run(wid):
                 wid["la"][0][count].set(en)
 
             board[cell//3 + (3 * (box//3))][(cell + 3 * (box - (3 * (box//3)))) - (3 * (cell//3))] = int(wid["la"][0][count].get())
+            boxes[box].append(int(wid["la"][0][count].get()))
 
-            pBoard(board)
+            # pBoard(board)
 
-    return board
+    return [board, boxes]
 
 def pBoard(board):
     print("-------------------")
