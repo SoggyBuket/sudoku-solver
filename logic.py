@@ -66,7 +66,7 @@ def checkIfBad(board, boxes):
                 return True
         
         return False
-        
+
     for i in range(9):
         # col = repeats(getCol(board, i))
         # row = repeats(board[i])
@@ -132,7 +132,7 @@ def getAllPossibleNums(board, boxes):
 
     for row in range(len(board)):
         for col in range(9):
-            if board[row][col] == 0:
+            if board[row][col] == 0 or isinstance(board[row][col], list):
                 possible_nums = checkPossibleNums(board, boxes, row, col)
             
                 if len(possible_nums) < 1:

@@ -43,6 +43,10 @@ for i in range(18):
     hor = i//3
     ver = i%3
 
-    print(f"Hor: {hor}  Ver: {ver}")
+    print(f"Hor: {hor}  Ver: {ver}")\
+
+wow = [1, 2, 3]
+print(type(wow))
+print(isinstance(wow, list))
 
 root.mainloop()
