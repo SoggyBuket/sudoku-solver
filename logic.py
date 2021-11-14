@@ -59,18 +59,20 @@ def getBoxes(board):
 
     return boxes
 
-def checkPossibleNums(board, boxes, x, y):
+def checkPossibleNums(board, box, cell):
     """Check and see what a square could be"""
     # x and y are the absolute x and y positions on the whole board
 
-    def getColumn(row):
-        return row[y]
+    # def getColumn():
+        
 
-    row = board[x]
-    column = list(map(getColumn, board))
-    box = boxes[x//3][y//3]
-    flat_box = box[0]+box[1]+box[2]
+
+    # row = board[x]
+    # column = list(map(getColumn, board))
+    # box = boxes[x//3][y//3]
+    # flat_box = box[0]+box[1]+box[2]
     # pos = board[x][y]
+
 
     possible_nums = []
 
@@ -91,22 +93,19 @@ def getAllPossibleNums(board):
     Find the possible numbers each square on the board could be and
     add a list of them where the number is
     """
-    boxes = getBoxes(board)
+    # boxes = getBoxes(board)
 
-    for i in range(81):
-        # this works because of how division with 9 works
-        row = i//9
-        col = i%9
+    for box in range(len(board)):
+        for cell in range(9):
+            if board[box][cell] == 0:
+                possible_nums = checkPossibleNums(board, box, cell)
 
-        if board[col + row*9] == 0:
-            possible_nums = checkPossibleNums(board, boxes, hor, ver)
-
-            possible_nums = []
-        
-            if len(possible_nums) < 1:
-                print("Puzzle unsolvable :(")
-                return False
-            else:
-                board[hor][ver] = possible_nums
+                possible_nums = []
+            
+                if len(possible_nums) < 1:
+                    print("Puzzle unsolvable :(")
+                    return False
+                else:
+                    board[hor][ver] = possible_nums
 
     return board

@@ -193,12 +193,21 @@ def setupThings():
     return root
 
 def run(wid):
-    board = []
+    board = [
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+    ]
 
     for box in range(9):
-        board.append([])
         for cell in range(9):
-            count = cell + box*9
+            count = cell + (9 * box)
 
             en = wid["en"][0][count].get()
 
@@ -206,11 +215,32 @@ def run(wid):
 
             if en.isdigit():
                 wid["la"][0][count].set(en)
-            
-            board[box].append(int(wid["la"][0][count].get()))
 
-    print(board)
+            board[cell//3 + (3 * (box//3))][(cell + 3 * (box - (3 * (box//3)))) - (3 * (cell//3))] = int(wid["la"][0][count].get())
+
+            pBoard(board)
+
+    # for i in range(len(wid["en"]) - 1):
+    #     en = wid["en"][0][i].get()
+
+        # wid["en"][i+1].configure(state="disabled")
+
+        # if en.isdigit():
+        #     wid["la"][0][i].set(en)
+        
+    #     board.append(int(wid["la"][0][i].get()))
+
     return board
+
+def pBoard(board):
+    print("-------------------")
+    for i in range(len(board)):
+        for j in range(9):
+            print(f" {board[i][j]}", end="")
+
+        print("")
+    print("-------------------")
+
 
 if __name__ == "__main__":
     root = setupThings()
