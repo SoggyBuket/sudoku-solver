@@ -193,17 +193,13 @@ def setupThings():
     return root
 
 def run(wid):
-    board = [
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-    ]
+    board = []
+
+    for row in range(9):
+        board.append([])
+        for col in range(9):
+            board[row].append(0)
+
 
     for box in range(9):
         for cell in range(9):
@@ -219,16 +215,6 @@ def run(wid):
             board[cell//3 + (3 * (box//3))][(cell + 3 * (box - (3 * (box//3)))) - (3 * (cell//3))] = int(wid["la"][0][count].get())
 
             pBoard(board)
-
-    # for i in range(len(wid["en"]) - 1):
-    #     en = wid["en"][0][i].get()
-
-        # wid["en"][i+1].configure(state="disabled")
-
-        # if en.isdigit():
-        #     wid["la"][0][i].set(en)
-        
-    #     board.append(int(wid["la"][0][i].get()))
 
     return board
 
