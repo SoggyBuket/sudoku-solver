@@ -152,10 +152,10 @@ def setSingles(board):
         for col in range(9):
             if isinstance(board[row][col], list):
                 if len(board[row][col]) == 1:
-                    board[row][col] == board[row][col][0]
+                    board[row][col] = board[row][col][0]
                     changes += 1
                 elif len(board[row][col]) < 1: # -- safe guard
-                    return False
+                    return -1
 
     return changes
 
@@ -164,8 +164,20 @@ def solveBoard(board, boxes):
         print("Bad puzzle :(")
         return False
 
-    while True:
-        getAllPossibleNums(board, boxes)
-        setSingles(board)
+    getAllPossibleNums(board, boxes)
 
-        break
+    while True:
+        count = setSingles(board)
+        if count >= 1:
+            getAllPossibleNums(board, boxes)
+        elif count == 0:
+            print("No more singles")
+            break
+        else:
+            print("Empty found")
+            break
+
+        print(count)
+        print(board)
+
+    return True

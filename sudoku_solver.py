@@ -25,6 +25,8 @@ def start(wid):
         answer = l.solveBoard(board, boxes)
         if answer == False:
             print("Answer can not be found")
+        else:
+            print("Done")
         # print(board)
 
 
