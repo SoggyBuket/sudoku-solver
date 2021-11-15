@@ -178,6 +178,15 @@ def solveBoard(board, boxes):
             break
 
         print(count)
-        print(board)
+        pBoard(board)
 
     return True
+
+def pBoard(board):
+    print("-------------------")
+    for i in range(len(board)):
+        for j in range(9):
+            print(f" {board[i][j]}", end="")
+
+        print("")
+    print("-------------------")
