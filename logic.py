@@ -32,30 +32,37 @@
 
 def getBoxes(board):
     """Get all boxes for the Sudoku board"""
-    x_offset = 0
-    y_offset = 0
-    boxes = [
-        [], [], [], 
-        [], [], [], 
-        [], [], [],
-    ]
+    # -- Make sure to call this after changing the labels
+    boxes = []
 
-    for i in range(3):
-        current_row = []
-        for j in range(3):
-            current_box = []
+    for box in range(len(board)):
+        boxes.append([])
+        for col in range(9):
+            boxes[box].append(0)
 
-            for k in range(3):
-                current_box.append(board[k+y_offset][x_offset:3+x_offset])
+    # x_offset = 0
+    # y_offset = 0
+    # boxes = [
+    #     [], [], [], 
+    #     [], [], [], 
+    #     [], [], [],
+    # ]
+
+    # for i in range(3):
+    #     current_row = []
+    #     for j in range(3):
+    #         current_box = []
+
+    #         for k in range(3):
+    #             current_box.append(board[k+y_offset][x_offset:3+x_offset])
             
-            current_row.append(current_box)
-            x_offset += 3
-        boxes.append(current_row)
-        y_offset += 3
-        x_offset = 0
+    #         current_row.append(current_box)
+    #         x_offset += 3
+    #     boxes.append(current_row)
+    #     y_offset += 3
+    #     x_offset = 0
 
     # for i in range(9):
-
 
     return boxes
 
@@ -158,29 +165,6 @@ def setSingles(board):
                     return -1
 
     return changes
-
-def solveBoard(board, boxes):
-    if checkIfBad(board, boxes):
-        print("Bad puzzle :(")
-        return False
-
-    getAllPossibleNums(board, boxes)
-
-    while True:
-        count = setSingles(board)
-        if count >= 1:
-            getAllPossibleNums(board, boxes)
-        elif count == 0:
-            print("No more singles")
-            break
-        else:
-            print("Empty found")
-            break
-
-        print(count)
-        pBoard(board)
-
-    return True
 
 def pBoard(board):
     print("-------------------")

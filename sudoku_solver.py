@@ -22,12 +22,36 @@ def start(wid):
     if count >= 17:
         board, boxes = g.run(wid)
 
-        answer = l.solveBoard(board, boxes)
+        answer = solveBoard(board, boxes)
         if answer == False:
             print("Answer can not be found")
         else:
             print("Done")
         # print(board)
+
+def solveBoard(board, boxes):
+    if l.checkIfBad(board, boxes):
+        print("Bad puzzle :(")
+        return False
+
+    l.getAllPossibleNums(board, boxes)
+
+    while True:
+        count = l.setSingles(board)
+        if count >= 1:
+            l.getAllPossibleNums(board, boxes)
+        elif count == 0:
+            print("No more singles")
+            break
+        else:
+            print("Empty found")
+            break
+
+        print(count)
+        l.pBoard(board)
+
+    return True
+
 
 
 if __name__ == "__main__":

@@ -206,20 +206,30 @@ def run(wid):
         boxes.append([])
         for cell in range(9):
             count = cell + (9 * box)
+            num = 0
 
             en = wid["en"][0][count].get()
+            la_set = en
 
             wid["en"][count+1].configure(state="disabled")
 
             if en.isdigit():
-                wid["la"][0][count].set(en)
+                num = en
 
-            board[cell//3 + (3 * (box//3))][(cell + 3 * (box - (3 * (box//3)))) - (3 * (cell//3))] = int(wid["la"][0][count].get())
-            boxes[box].append(int(wid["la"][0][count].get()))
+            if en == "0":
+                la_set = ''
+
+            wid["la"][0][count].set(la_set)
+
+            board[cell//3 + (3 * (box//3))][(cell + 3 * (box - (3 * (box//3)))) - (3 * (cell//3))] = num
+            boxes[box].append(num)
 
             # pBoard(board)
 
     return [board, boxes]
+
+# def setLables(board):
+
 
 def pBoard(board):
     print("-------------------")
