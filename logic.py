@@ -126,19 +126,46 @@ def getAllPossibleNums(board, boxes):
     """
     # boxes = getBoxes(board)
 
-    if checkIfBad(board, boxes):
-        print("Bad puzzle :(")
-        return False
-
     for row in range(len(board)):
         for col in range(9):
             if board[row][col] == 0 or isinstance(board[row][col], list):
                 possible_nums = checkPossibleNums(board, boxes, row, col)
-            
-                if len(possible_nums) < 1:
-                    print("Puzzle unsolvable :(")
-                    return False
-                else:
-                    board[row][col] = possible_nums
+
+                board[row][col] = possible_nums
 
     return board
+
+# def checkEmpties(board):
+#     """Make sure there are no empty arrays, else the board is unsolvable"""
+#     for row in range(len(board)):
+#         for col in range(9):
+#             if isinstance(board[row][col], list) and len(board[row][col]) < 1:
+#                 return True
+
+#     return False
+
+def setSingles(board):
+    """Make the arrays with only one number be just that number"""
+    changes = 0
+
+    for row in range(len(board)):
+        for col in range(9):
+            if isinstance(board[row][col], list):
+                if len(board[row][col]) == 1:
+                    board[row][col] == board[row][col][0]
+                    changes += 1
+                elif len(board[row][col]) < 1: # -- safe guard
+                    return False
+
+    return changes
+
+def solveBoard(board, boxes):
+    if checkIfBad(board, boxes):
+        print("Bad puzzle :(")
+        return False
+
+    while True:
+        getAllPossibleNums(board, boxes)
+        setSingles(board)
+
+        break

@@ -21,8 +21,10 @@ def start(wid):
 
     if count >= 17:
         board, boxes = g.run(wid)
-        print(boxes)
-        l.getAllPossibleNums(board, boxes)
+
+        answer = l.solveBoard(board, boxes)
+        if answer == False:
+            print("Answer can not be found")
         # print(board)
 
 
