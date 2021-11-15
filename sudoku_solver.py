@@ -37,7 +37,9 @@ def solveBoard(board, boxes):
     l.getAllPossibleNums(board, boxes)
 
     while True:
+        boxes = l.getBoxes(board)
         count = l.setSingles(board)
+        
         if count >= 1:
             l.getAllPossibleNums(board, boxes)
         elif count == 0:

@@ -214,7 +214,7 @@ def run(wid):
             wid["en"][count+1].configure(state="disabled")
 
             if en.isdigit():
-                num = en
+                num = int(en)
 
             if en == "0":
                 la_set = ''

@@ -32,37 +32,13 @@
 
 def getBoxes(board):
     """Get all boxes for the Sudoku board"""
-    # -- Make sure to call this after changing the labels
     boxes = []
-
-    for box in range(len(board)):
+    for box in range(9):
         boxes.append([])
+
+    for row in range(len(board)):
         for col in range(9):
-            boxes[box].append(0)
-
-    # x_offset = 0
-    # y_offset = 0
-    # boxes = [
-    #     [], [], [], 
-    #     [], [], [], 
-    #     [], [], [],
-    # ]
-
-    # for i in range(3):
-    #     current_row = []
-    #     for j in range(3):
-    #         current_box = []
-
-    #         for k in range(3):
-    #             current_box.append(board[k+y_offset][x_offset:3+x_offset])
-            
-    #         current_row.append(current_box)
-    #         x_offset += 3
-    #     boxes.append(current_row)
-    #     y_offset += 3
-    #     x_offset = 0
-
-    # for i in range(9):
+            boxes[col//3 + (3 * (row//3))].append(board[row][col])
 
     return boxes
 
@@ -131,7 +107,6 @@ def getAllPossibleNums(board, boxes):
     Find the possible numbers each square on the board could be and
     add a list of them where the number is
     """
-    # boxes = getBoxes(board)
 
     for row in range(len(board)):
         for col in range(9):
