@@ -228,7 +228,12 @@ def run(wid):
 
     return [board, boxes]
 
-# def setLables(board):
+def setLabels(boxes, wid):
+    for box in range(len(boxes)):
+        for cell in range(9):
+            count = cell + (9 * box)
+            if isinstance(boxes[box][cell], int):
+                wid["la"][0][count].set(boxes[box][cell])
 
 
 def pBoard(board):

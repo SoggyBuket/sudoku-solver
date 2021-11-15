@@ -22,14 +22,14 @@ def start(wid):
     if count >= 17:
         board, boxes = g.run(wid)
 
-        answer = solveBoard(board, boxes)
+        answer = solveBoard(board, boxes, wid)
         if answer == False:
             print("Answer can not be found")
         else:
             print("Done")
         # print(board)
 
-def solveBoard(board, boxes):
+def solveBoard(board, boxes, wid):
     if l.checkIfBad(board, boxes):
         print("Bad puzzle :(")
         return False
@@ -37,9 +37,8 @@ def solveBoard(board, boxes):
     l.getAllPossibleNums(board, boxes)
 
     while True:
-        boxes = l.getBoxes(board)
         count = l.setSingles(board)
-        
+
         if count >= 1:
             l.getAllPossibleNums(board, boxes)
         elif count == 0:
@@ -48,6 +47,9 @@ def solveBoard(board, boxes):
         else:
             print("Empty found")
             break
+
+        boxes = l.getBoxes(board)
+        g.setLabels(boxes, wid)
 
         print(count)
         l.pBoard(board)
