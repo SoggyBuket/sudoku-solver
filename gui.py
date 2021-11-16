@@ -81,7 +81,9 @@ def createWidgets(root, frames, styles):
             "output_text": ttk.Label(frames["output_text"], text="Output:", padding="20 1"),
         },
         "but": {
-            "start": ttk.Button(frames["button"], text="Start")
+            "start": ttk.Button(frames["button"], text="Start"),
+            "reset": ttk.Button(frames["button"], text="Reset"),
+            "clear": ttk.Button(frames["button"], text="Clear")
         },
     }
 
@@ -132,6 +134,8 @@ def gridAll(frames, wid):
 
     # -- gridding the widgets
     wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
+    wid["but"]["reset"].grid(column=0, row=4, sticky=S)
+    wid["but"]["clear"].grid(column=0, row=3, sticky=S)
 
     wid["txt"]["input_text"].grid(column=0, row=0)
     wid["txt"]["output_text"].grid(column=0, row=0)
@@ -153,16 +157,28 @@ def gridAll(frames, wid):
             count += 1
 
 def setDefaultBoard(wid):
+    # d_board = [
+    #     0, 0, 9, 2, 0, 5, 0, 0, 0, 
+    #     0, 8, 0, 4, 0, 0, 1, 2, 0, 
+    #     0, 2, 7, 3, 0, 0, 0, 9, 0, 
+    #     0, 9, 0, 0, 3, 2, 0, 0, 8, 
+    #     3, 0, 0, 0, 0, 0, 9, 0, 2, 
+    #     6, 8, 0, 0, 5, 0, 0, 0, 1, 
+    #     0, 0, 0, 0, 8, 6, 0, 2, 1, 
+    #     6, 5, 0, 2, 1, 0, 0, 0, 0, 
+    #     0, 1, 3, 5, 0, 9, 8, 4, 0,
+    # ]
+
     d_board = [
-        0, 0, 9, 2, 0, 5, 0, 0, 0, 
-        0, 8, 0, 4, 0, 0, 1, 2, 0, 
-        0, 2, 7, 3, 0, 0, 0, 9, 0, 
-        0, 9, 0, 0, 3, 2, 0, 0, 8, 
-        3, 0, 0, 0, 0, 0, 9, 0, 2, 
-        6, 8, 0, 0, 5, 0, 0, 0, 1, 
-        0, 0, 0, 0, 8, 6, 0, 2, 1, 
-        6, 5, 0, 2, 1, 0, 0, 0, 0, 
-        0, 1, 3, 5, 0, 9, 8, 4, 0,
+        9, 2, 0, 0, 8, 3, 0, 4, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0,
+        0, 7, 0, 2, 0, 0, 0, 0, 0,
+        0, 0, 4, 0, 0, 0, 5, 0, 1,
+        0, 5, 0, 0, 9, 0, 0, 6, 0,
+        3, 0, 2, 0, 0, 0, 4, 0, 0,
+        0, 0, 0, 0, 0, 9, 0, 5, 0,
+        0, 0, 4, 0, 0, 0, 0, 0, 0,
+        0, 3, 0, 7, 1, 0, 0, 2, 8,
     ]
 
     for i in range(len(wid["en"][0])):

@@ -6,7 +6,7 @@ def main():
     frames = g.createFrames(root)
     styles = g.createStyles()
     wid = g.createWidgets(root, frames, styles)
-    g.setDefaultBoard(wid)
+    # g.setDefaultBoard(wid)
     g.gridAll(frames, wid)
 
     wid["but"]["start"].config(command=lambda: start(wid))
