@@ -199,6 +199,7 @@ def setupThings():
 
     # -- run 'run' when button is pressed
     wid["but"]["start"].config(command=lambda: run(wid))
+    # wid["but"]["reset"].config(command=lambda: reset(wid))
     # root.bind("<Return>", lambda e: wid["but"]["start"].invoke())
     # root.bind("<KP_Enter>", lambda e: wid["but"]["start"].invoke())
 
@@ -207,6 +208,18 @@ def setupThings():
     #     la_val = wid["la"][0][i].get()
 
     return root
+
+def resetLabels(wid):
+    for i in range(len(wid["la"][0])):
+        wid["la"][0][i].set(0)
+
+def allowInput(wid):
+    for i in range(len(wid["en"]) - 1):
+        wid["en"][i+1].configure(state="normal")
+
+def clearEntries(wid):
+    for i in range(len(wid["en"][0])):
+        wid["en"][0][i].set("")
 
 def run(wid):
     board = []

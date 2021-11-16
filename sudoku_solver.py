@@ -6,12 +6,22 @@ def main():
     frames = g.createFrames(root)
     styles = g.createStyles()
     wid = g.createWidgets(root, frames, styles)
-    # g.setDefaultBoard(wid)
+    g.setDefaultBoard(wid)
     g.gridAll(frames, wid)
 
     wid["but"]["start"].config(command=lambda: start(wid))
+    wid["but"]["reset"].config(command=lambda: reset(wid))
+    wid["but"]["clear"].config(command=lambda: clear(wid))
 
     return root
+
+def reset(wid):
+    g.resetLabels(wid)
+    g.allowInput(wid)
+
+def clear(wid):
+    reset(wid)
+    g.clearEntries(wid)
 
 def start(wid):
     count = 0
