@@ -29,10 +29,10 @@ def createStyles():
     #     borderwidth=1,
     # )
 
-    styles["m"].configure(
-        "TFrame", background="blue", relief="groove", 
-        borderwidth=1, 
-    )
+    # styles["m"].configure(
+    #     "TFrame", background="blue", relief="groove", 
+    #     borderwidth=1, 
+    # )
 
     styles["e"].configure(
         "box.TFrame", background="black", relief="solid",
