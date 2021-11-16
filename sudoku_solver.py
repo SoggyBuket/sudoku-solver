@@ -38,12 +38,19 @@ def solveBoard(board, boxes, wid):
 
     while True:
         count = l.setSingles(board)
+        deduced = []
 
         if count >= 1:
             l.getAllPossibleNums(board, boxes)
         elif count == 0:
             print("No more singles")
-            break
+            deduced = l.deduce(board, boxes)
+
+            if deduced[0] != None:
+                print(f"row, col: {deduced[0]}, {deduced[1]}  num: {board[deduced[0]][deduced[1]]}")
+            else:
+                print("No deduce")
+                break
         else:
             print("Empty found")
             break

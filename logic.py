@@ -141,6 +141,60 @@ def setSingles(board):
 
     return changes
 
+def deduce(board, boxes):
+    """
+    Check and see if a cell has a value that is the only one with that 
+    value in it's box or column
+    """
+
+    for row in range(len(board)):
+        for col in range(9):
+            if isinstance(board[row][col], list):
+                pos_row, pos_col, pos_box = findPosLines(board, boxes, row, col)
+                pBoard(board)
+                print(pos_row)
+                print(pos_col)
+                print(pos_box)
+                pBoard(boxes)
+                print("")
+                
+                for i in range(len(board[row][col])):
+                    num = board[row][col][i]
+
+                    if num not in pos_row and num not in pos_col and num not in pos_box:
+                        board[row][col] = num
+                        print(pos_row)
+                        print(pos_col)
+                        print(pos_box)
+                        return [row, col]
+
+    return [None, None]
+
+def findPosLines(board, boxes, x, y):
+    row = board[x]
+    col = getCol(board, y)
+    box = boxes[y//3 + (3 * (x//3))]
+
+    pos_row = []
+    pos_col = []
+    pos_box = []
+
+    for i in range(9):
+        if isinstance(row[i], list) and i != y:
+            for j in range(len(row[i])):
+                pos_row.append(row[i][j])
+        
+        if isinstance(col[i], list) and i != x:
+            for j in range(len(col[i])):
+                pos_col.append(col[i][j])
+
+        if isinstance(box[i], list) and (i != (y//3 + (3 * (x//3)))):
+            for j in range(len(box[i])):
+                pos_box.append(box[i][j])
+
+    return pos_row, pos_col, pos_box
+                
+
 def pBoard(board):
     print("-------------------")
     for i in range(len(board)):
