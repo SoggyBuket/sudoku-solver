@@ -150,6 +150,10 @@ def deduce(board, boxes):
     for row in range(len(board)):
         for col in range(9):
             if isinstance(board[row][col], list):
+                # cell_row = board[x]
+                # cell_col = getCol(board, y)
+                # cell_box = boxes[y//3 + (3 * (x//3))]
+
                 pos_row, pos_col, pos_box = findPosLines(board, boxes, row, col)
                 pBoard(board)
                 print(pos_row)
@@ -161,14 +165,40 @@ def deduce(board, boxes):
                 for i in range(len(board[row][col])):
                     num = board[row][col][i]
 
-                    if num not in pos_row and num not in pos_col and num not in pos_box:
+                    if num not in pos_row or num not in pos_col or num not in pos_box:
                         board[row][col] = num
+                        deleteSame(board, num, row, col)
+
                         print(pos_row)
                         print(pos_col)
                         print(pos_box)
                         return [row, col]
 
     return [None, None]
+
+def setAll(board, row, col, box, x, y):
+    for i in range(9):
+        h = i//3
+        v = i%3
+
+        board[x][i] = row[i]
+        board[i][y] = col[i]
+        board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))] = box[i]
+
+def deleteSame(board, num, x, y):
+    for i in range(9):
+        h = i//3
+        v = i%3
+        box_num = board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))]
+
+        if isinstance(board[x][i], list) and num in board[x][i]:
+            board[x][i].remove(num)
+
+        if isinstance(board[i][y], list) and num in board[i][y]:
+            board[i][y].remove(num)
+
+        if isinstance(box_num, list) and num in box_num:
+            board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))].remove(num)
 
 def findPosLines(board, boxes, x, y):
     row = board[x]
@@ -188,7 +218,7 @@ def findPosLines(board, boxes, x, y):
             for j in range(len(col[i])):
                 pos_col.append(col[i][j])
 
-        if isinstance(box[i], list) and (i != (y//3 + (3 * (x//3)))):
+        if isinstance(box[i], list) and (i != (y + 3 * (x - (3 * (x//3)))) - (3 * (y//3))):
             for j in range(len(box[i])):
                 pos_box.append(box[i][j])
 
