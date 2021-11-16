@@ -37,6 +37,7 @@ def solveBoard(board, boxes, wid):
     l.getAllPossibleNums(board, boxes)
 
     while True:
+        test = False
         count = l.setSingles(board)
         deduced = []
 
@@ -48,7 +49,7 @@ def solveBoard(board, boxes, wid):
 
             if deduced[0] != None:
                 print(f"row, col: {deduced[0]}, {deduced[1]}  num: {board[deduced[0]][deduced[1]]}")
-                break
+                # test = True
             else:
                 print("No deduce")
                 break
@@ -60,6 +61,9 @@ def solveBoard(board, boxes, wid):
         g.setLabels(boxes, wid)
 
         l.pBoard(board)
+
+        if test == True:
+            break
 
     return True
 

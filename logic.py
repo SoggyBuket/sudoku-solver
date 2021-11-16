@@ -169,36 +169,53 @@ def deduce(board, boxes):
                         board[row][col] = num
                         deleteSame(board, num, row, col)
 
-                        print(pos_row)
-                        print(pos_col)
-                        print(pos_box)
+                        # print(pos_row)
+                        # print(pos_col)
+                        # print(pos_box)
                         return [row, col]
 
     return [None, None]
 
-def setAll(board, row, col, box, x, y):
-    for i in range(9):
-        h = i//3
-        v = i%3
+# def setAll(board, row, col, box, x, y):
+#     for i in range(9):
+#         h = i//3
+#         v = i%3
 
-        board[x][i] = row[i]
-        board[i][y] = col[i]
-        board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))] = box[i]
+#         board[x][i] = row[i]
+#         board[i][y] = col[i]
+#         board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))] = box[i]
 
 def deleteSame(board, num, x, y):
     for i in range(9):
-        h = i//3
-        v = i%3
-        box_num = board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))]
+        # h = i//3
+        # v = i%3
+        # box_num = board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))]
 
         if isinstance(board[x][i], list) and num in board[x][i]:
+            print(f"row delete {num}  row, col: {x}, {i}")
             board[x][i].remove(num)
 
         if isinstance(board[i][y], list) and num in board[i][y]:
+            print(f"col delete {num}  row, col: {i}, {y}")
             board[i][y].remove(num)
 
-        if isinstance(box_num, list) and num in box_num:
-            board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))].remove(num)
+        # -- TODO: Figure out how to delete from box
+
+        # if isinstance(box_num, list) and num in box_num:
+        #     print(f"box delete {num} {i, h, v}  row, col: {v//3 + (3 * (h//3))}, {(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))}")
+        #     board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))].remove(num)
+
+    # for row in range(9):
+    #     for col in range(9):
+    #         box_num = board[col//3 + (3 * (row//3))][(col + 3 * (row - (3 * (row//3)))) - (3 * (col//3))]
+    #         if isinstance(box_num, list) and num in box_num:
+    #             print(f"box delete {num} row, col: {col//3 + (3 * (row//3))}, {(col + 3 * (row - (3 * (row//3)))) - (3 * (col//3))}")
+    #             board[col//3 + (3 * (row//3))][(col + 3 * (row - (3 * (row//3)))) - (3 * (col//3))].remove(num)
+
+    # for i in range(3):
+    #     row = i + (3 * (x//3))
+    #     for j in range(3):
+    #         col = y//3 + (3 * (j//3))
 
 def findPosLines(board, boxes, x, y):
     row = board[x]
