@@ -205,6 +205,12 @@ def deleteSame(board, num, x, y):
         #     print(f"box delete {num} {i, h, v}  row, col: {v//3 + (3 * (h//3))}, {(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))}")
         #     board[v//3 + (3 * (h//3))][(v + 3 * (h - (3 * (h//3)))) - (3 * (v//3))].remove(num)
 
+    for row in range(3):
+        for col in range(3):
+            box_num = board[(3 * (x//3)) + row][(3 * (y//3)) + col]
+            if isinstance(box_num, list) and num in box_num:
+                board[(3 * (x//3)) + row][(3 * (y//3)) + col].remove(num)
+
     # for row in range(9):
     #     for col in range(9):
     #         box_num = board[col//3 + (3 * (row//3))][(col + 3 * (row - (3 * (row//3)))) - (3 * (col//3))]
