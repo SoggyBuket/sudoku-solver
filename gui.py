@@ -4,10 +4,8 @@ from tkinter import ttk
 # -- regex
 import re
 
-# -- the image for the board. Also it has to be global for some reason
-# board_img = PhotoImage(file="img/board.png")
-
 def rootInit():
+    """Create the root window and return it"""
     root = Tk()
     root.title("Sudoku Solver")
     # root.geometry("600x600")
@@ -17,6 +15,7 @@ def rootInit():
     return root
 
 def createStyles():
+    """Create all the styles used in one array"""
     styles = {
         "s": ttk.Style(),
         "m": ttk.Style(),
@@ -24,6 +23,7 @@ def createStyles():
         "b": ttk.Style(),
     }
 
+    # -- debug boarders
     # styles["s"].configure(
     #     "TLabel", background="black", relief="solid",
     #     borderwidth=1,
@@ -47,6 +47,7 @@ def createStyles():
     return styles
 
 def createFrames(root):
+    """Create all of the frames used in one array"""
     main_frame = ttk.Frame(root)
     frames = {
         "main": main_frame,
@@ -55,7 +56,6 @@ def createFrames(root):
         "r_board": ttk.Frame(main_frame, padding="3", style="board.TFrame"),
         "e_boxes": [],
         "l_boxes": [],
-        "text": ttk.Frame(main_frame, padding="3"),
         "input_text": ttk.Frame(main_frame, padding="1"),
         "output_text": ttk.Frame(main_frame, padding="1"),
     }
@@ -67,13 +67,8 @@ def createFrames(root):
     return frames
 
 def createWidgets(root, frames, styles):
+    """Create all of the widgets used in one array"""
     wid = {
-        "lb": {
-            # "board": ttk.Label(frames["l_board"], image=board_img)
-        },
-        "rb": {
-            # "board": ttk.Label(frames["r_board"], image=board_img)
-        },
         "en": [[]],
         "la": [[]],
         "txt": {
@@ -118,12 +113,12 @@ def createWidgets(root, frames, styles):
     return wid
 
 def gridAll(frames, wid):
+    """Grid all of the widgets and frames used"""
     # -- gridding the frames
     frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
     frames["l_board"].grid(column=1, row=1, sticky=W)
     frames["button"].grid(column=2, row=1, sticky=S)
     frames["r_board"].grid(column=3, row=1, sticky=E)
-    frames["text"].grid(column=1, row=0, columnspan=3, sticky=(E, W))
     frames["input_text"].grid(column=1, row=0, sticky=(N, W))
     frames["output_text"].grid(column=3, row=0, sticky=(N, W))
 
@@ -157,6 +152,7 @@ def gridAll(frames, wid):
             count += 1
 
 def setDefaultBoard(wid):
+    """Set the default board in the entries"""
     # d_board = [
     #     0, 0, 9, 2, 0, 5, 0, 0, 0, 
     #     0, 8, 0, 4, 0, 0, 1, 2, 0, 
@@ -185,8 +181,8 @@ def setDefaultBoard(wid):
         wid["en"][0][i].set(d_board[i])
 
 
-# -- I don't think I want this function when I start to interface with the main file
 def setupThings():
+    """For running the file by itself (untested)"""
     root = rootInit()
     # -- houses all the frames
     frames = createFrames(root)
@@ -197,40 +193,41 @@ def setupThings():
     # -- grid all of the widgets
     gridAll(frames, wid)
 
-    # -- run 'run' when button is pressed
-    wid["but"]["start"].config(command=lambda: run(wid))
+    # -- run 'createRowBoard' when button is pressed
+    wid["but"]["start"].config(command=lambda: createRowBoard(wid))
     # wid["but"]["reset"].config(command=lambda: reset(wid))
     # root.bind("<Return>", lambda e: wid["but"]["start"].invoke())
     # root.bind("<KP_Enter>", lambda e: wid["but"]["start"].invoke())
 
-    # for i in range(len(wid["en"][0])):
-    #     en_val = wid["en"][0][i].get()
-    #     la_val = wid["la"][0][i].get()
-
     return root
 
 def resetLabels(wid):
+    """Reset all output labels to 0"""
     for i in range(len(wid["la"][0])):
         wid["la"][0][i].set(0)
 
 def allowInput(wid):
+    """Allow inputting to the input board"""
     for i in range(len(wid["en"]) - 1):
         wid["en"][i+1].configure(state="normal")
 
 def clearEntries(wid):
+    """Clear all input entry widgets"""
     for i in range(len(wid["en"][0])):
         wid["en"][0][i].set("")
 
-def run(wid):
+def createRowBoard(wid):
+    """Create board array in row layout from entries"""
     board = []
     boxes = []
 
+    # -- fill board with 0s
     for row in range(9):
         board.append([])
         for col in range(9):
             board[row].append(0)
 
-
+    # -- create board and boxes from the entries and it's layout
     for box in range(9):
         boxes.append([])
         for cell in range(9):
@@ -253,11 +250,16 @@ def run(wid):
             board[cell//3 + (3 * (box//3))][(cell + 3 * (box - (3 * (box//3)))) - (3 * (cell//3))] = num
             boxes[box].append(num)
 
-            # pBoard(board)
+    # -- print board and boxes to the terminal
+    print("Whole board:")
+    pBoard(board)
+    print("Boxes:")
+    pBoard(boxes)
 
     return [board, boxes]
 
 def setLabels(boxes, wid):
+    """Set the labels to the board values from boxes"""
     for box in range(len(boxes)):
         for cell in range(9):
             count = cell + (9 * box)
@@ -266,6 +268,7 @@ def setLabels(boxes, wid):
 
 
 def pBoard(board):
+    """Print board to the terminal *prettily*"""
     print("-------------------")
     for i in range(len(board)):
         for j in range(9):
@@ -285,17 +288,9 @@ if __name__ == "__main__":
 #    and bottom
 # -- 4 numbers means left, top, right, bottom
 
-
-
-# root.mainloop()
-
 # NOTES:
 # -- to have borders, you need the 'borderwidth' option set to 2, then you can use 
 #    'relief' to set the border style you want
 # -- if something isn't working properly, like you can't change a color on something,
 #    see if you can use a style to make it work
 # -- minimum amount of numbers allowed is 17
-# -- can use 'trace_*' on a linked variable for an entry to see if anything has changed
-#    in it. Not very "Pythonic" but it should work if need be
-# -- will need to use validate for the numbers on the sudoku to make sure they are 1-9
-#    or space as an empty square
