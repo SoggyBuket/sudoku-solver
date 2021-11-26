@@ -57,6 +57,7 @@ def solveBoard(board, boxes, wid):
     # -- get initial possible nums and update boxes
     l.getAllPossibleNums(board, boxes)
     boxes = l.getBoxes(board)
+    gts = []
 
     # -- main loop for solving
     while True:
@@ -73,10 +74,10 @@ def solveBoard(board, boxes, wid):
                 print("Deduced")
             else:
                 print("No more deduce")
-                break
+                l.guess(board, boxes, gts, False)
         elif count < 1:
             print("Empty found")
-            break
+            l.guess(board, boxes, gts, True)
 
         # -- get possible nums after all the changes and update boxes
         l.getAllPossibleNums(board, boxes)

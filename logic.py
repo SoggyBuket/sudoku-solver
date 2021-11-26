@@ -121,6 +121,65 @@ def deduce(board, boxes):
 
     return False
 
+def guess(board, boxes, gts, error):
+    # -- guessing means putting a number in a square from it's possibilities. We
+    # -- have to make a gts each time we guess so we can store the board state
+    # -- and revert back if we need to
+
+    # -- gts needs: board, row, col, possibilities, index in possibilities
+    # manageGTS(board, gts)
+
+    for i in range(len(gts)):
+        print(gts[i])
+
+    if error:
+        manageGTS(board, gts)
+    else:
+        createGTS(board, gts, False)
+
+    print(gts)
+    pBoard(board)
+    # -- set the guess in gts
+    board[gts[-1][1]][gts[-1][2]] = gts[-1][3][gts[-1][4]]
+
+def manageGTS(board, gts):
+
+    # -- goal is to store states and place a number in 
+    # -- a cell as a guess. if the guess doesn't work then try a different guess.
+    # -- if all don't work then go back a store and try another guess. if there
+    # -- are no stores because there are no guesses you can make then the board
+    # -- is unsolvable
+    
+    if len(gts) >= 1:
+        board = gts[-1][0]   
+        pBoard(board)     
+
+        if gts[-1][4]+1 == len(gts[-1][3]):
+            print("Empty")
+            deleteGTS(gts)
+            manageGTS(board, gts)
+        else:
+            gts[-1][4] += 1
+    else:
+        createGTS(board, gts, False)
+
+def createGTS(board, gts, pop, x=0, y=0):
+    """Find a new array for a gts"""
+    for i in range(81 - (y + (9*x))):
+        row = i//9
+        col = i%9
+
+        if isinstance(board[row][col], list):
+            if pop:
+                deleteGTS(gts)
+
+            gts.append([board, row, col, board[row][col], 0])
+
+            break
+
+def deleteGTS(gts):
+    return gts.pop()
+
 # def deleteSame(board, num, x, y):
 #     for i in range(9):
 #         if isinstance(board[x][i], list) and num in board[x][i]:
