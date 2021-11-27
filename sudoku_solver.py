@@ -63,7 +63,7 @@ def solveBoard(board, boxes, wid):
     while True:
         # -- set all of the singles on the board. 
         # -- returns number of changes and -1 if found an empty list
-        count = l.setSingles(board)
+        count = l.setSingles(board, boxes)
 
         if count == 0:
             print("No more singles")

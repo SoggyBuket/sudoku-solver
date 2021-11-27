@@ -75,7 +75,7 @@ def getAllPossibleNums(board, boxes):
 
     return board
 
-def setSingles(board):
+def setSingles(board, boxes):
     """Make the arrays with only one number be just that number"""
     changes = 0
 
@@ -85,7 +85,7 @@ def setSingles(board):
                 if len(board[row][col]) == 1:
                     board[row][col] = board[row][col][0]
                     changes += 1
-                elif len(board[row][col]) < 1: # -- safe guard
+                elif len(board[row][col]) < 1 or checkIfBad(board, boxes): # -- safe guard
                     return -1
 
     return changes
@@ -131,18 +131,29 @@ def guess(board, boxes, gts, error):
 
     for i in range(len(gts)):
         print(gts[i])
+        print(f"Board: {i}")
+        pBoard(gts[i][0])
+    print("Done print")
 
     if error:
-        manageGTS(board, gts)
+        while True:
+            if not manageGTS(board, boxes, gts): break
     else:
         createGTS(board, gts, False)
 
-    print(gts)
+    # print(gts)
     pBoard(board)
     # -- set the guess in gts
+    print(gts)
+    print(gts[-1])
+    print(gts[-1][1])
+    print(gts[-1][2])
+    print(gts[-1][3])
+    print(gts[-1][4])
+    print(gts[-1][3][gts[-1][4]])
     board[gts[-1][1]][gts[-1][2]] = gts[-1][3][gts[-1][4]]
 
-def manageGTS(board, gts):
+def manageGTS(board, boxes, gts):
 
     # -- goal is to store states and place a number in 
     # -- a cell as a guess. if the guess doesn't work then try a different guess.
@@ -154,14 +165,16 @@ def manageGTS(board, gts):
         board = gts[-1][0]   
         pBoard(board)     
 
-        if gts[-1][4]+1 == len(gts[-1][3]):
-            print("Empty")
+        if gts[-1][4]+1 == len(gts[-1][3]) or checkIfBad(board, boxes):
+            print("Bad")
             deleteGTS(gts)
-            manageGTS(board, gts)
+            return False
         else:
             gts[-1][4] += 1
     else:
         createGTS(board, gts, False)
+
+    return True
 
 def createGTS(board, gts, pop, x=0, y=0):
     """Find a new array for a gts"""
@@ -170,6 +183,7 @@ def createGTS(board, gts, pop, x=0, y=0):
         col = i%9
 
         if isinstance(board[row][col], list):
+            print(f"Guess at row, col: {row}, {col}")
             if pop:
                 deleteGTS(gts)
 
