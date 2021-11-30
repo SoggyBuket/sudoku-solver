@@ -66,15 +66,23 @@ def getAllPossibleNums(board):
     add a list of them where the number is
     """
     boxes = getBoxes(board)
+    change = 0
     for row in range(len(board)):
         for col in range(9):
             if board[row][col] == 0 or isinstance(board[row][col], list):
                 possible_nums = checkPossibleNums(board, boxes, row, col)
 
                 board[row][col] = possible_nums
+
+                change += 1
     boxes = getBoxes(board)
 
-    return board, boxes
+    # if change:
+    #     return board, boxes
+    # else:
+    #     return board, False
+
+    return board, boxes, change
 
 def setSingles(board, boxes):
     """Make the arrays with only one number be just that number"""
