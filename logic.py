@@ -60,20 +60,21 @@ def checkPossibleNums(board, boxes, x, y):
 
     return possible_nums
 
-def getAllPossibleNums(board, boxes):
+def getAllPossibleNums(board):
     """
     Find the possible numbers each square on the board could be and
     add a list of them where the number is
     """
-
+    boxes = getBoxes(board)
     for row in range(len(board)):
         for col in range(9):
             if board[row][col] == 0 or isinstance(board[row][col], list):
                 possible_nums = checkPossibleNums(board, boxes, row, col)
 
                 board[row][col] = possible_nums
+    boxes = getBoxes(board)
 
-    return board
+    return board, boxes
 
 def setSingles(board, boxes):
     """Make the arrays with only one number be just that number"""
@@ -117,9 +118,9 @@ def deduce(board, boxes):
                         # print(f"row, col: {row}, {col}  num: {num}")
                         # deleteSame(board, num, row, col)
 
-                        return True
+                        return board, True
 
-    return False
+    return board, False
 
 def guess(board, boxes, gts, error):
     # -- guessing means putting a number in a square from it's possibilities. We
@@ -132,22 +133,26 @@ def guess(board, boxes, gts, error):
     pGTS(gts)
 
     if error:
-        while True:
-            if not manageGTS(board, boxes, gts): break
+        buffer = (False, False)
+        while not buffer[0]:
+            buffer = manageGTS(board, boxes, gts)
+        board, gts = buffer
     else:
-        createGTS(board, gts, False)
+        gts.append(createGTS(board, gts, False))
 
     # print(gts)
     pBoard(board)
     # -- set the guess in gts
-    print(gts)
-    print(gts[-1])
-    print(gts[-1][1])
-    print(gts[-1][2])
-    print(gts[-1][3])
-    print(gts[-1][4])
-    print(gts[-1][3][gts[-1][4]])
+    # print(gts)
+    # print(gts[-1])
+    # print(gts[-1][1])
+    # print(gts[-1][2])
+    # print(gts[-1][3])
+    # print(gts[-1][4])
+    # print(gts[-1][3][gts[-1][4]])
     board[gts[-1][1]][gts[-1][2]] = gts[-1][3][gts[-1][4]]
+
+    return board, gts
 
 def pGTS(gts):
     for i in range(len(gts)):
@@ -167,18 +172,19 @@ def manageGTS(board, boxes, gts):
     if len(gts) >= 1:
         board = copy2DList(gts[-1][0])
 
-        pBoard(board)     
+        pBoard(board, "manageGTS")     
 
         if gts[-1][4]+1 == len(gts[-1][3]) or checkIfBad(board, boxes):
             print("Bad")
             deleteGTS(gts)
-            return False
+            return False, False
         else:
+            print("increment")
             gts[-1][4] += 1
     else:
-        createGTS(board, gts, False)
+        gts.append(createGTS(board, gts, False))
 
-    return True
+    return board, gts
 
 def createGTS(board, gts, pop, x=0, y=0):
     """Find a new array for a gts"""
@@ -191,11 +197,13 @@ def createGTS(board, gts, pop, x=0, y=0):
             if pop:
                 deleteGTS(gts)
 
-            gts.append([[], row, col, board[row][col], 0])
+            # gts.append([[], row, col, board[row][col], 0])
 
-            gts[-1][0] = copy2DList(board)
+            # gts[-1][0] = copy2DList(board)
 
-            break
+            return [copy2DList(board), row, col, board[row][col], 0]
+
+    # return False
 
 def deleteGTS(gts):
     return gts.pop()
@@ -258,7 +266,10 @@ def findPosLines(board, boxes, x, y):
     return pos_row, pos_col, pos_box
                 
 # -- copy from gui.py
-def pBoard(board):
+def pBoard(board, message=None):
+    if message:
+        print(message)
+
     print("-------------------")
     for i in range(len(board)):
         for j in range(9):

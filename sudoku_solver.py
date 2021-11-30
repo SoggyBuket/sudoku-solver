@@ -55,8 +55,7 @@ def solveBoard(board, boxes, wid):
         return False
 
     # -- get initial possible nums and update boxes
-    board = l.getAllPossibleNums(board, boxes)
-    boxes = l.getBoxes(board)
+    board, boxes = l.getAllPossibleNums(board)
     gts = []
 
     # -- main loop for solving
@@ -68,25 +67,31 @@ def solveBoard(board, boxes, wid):
         if count == 0:
             print("No more singles")
             # -- set invisible singles if no more singles
-            deduced = l.deduce(board, boxes)
+            board, deduced = l.deduce(board, boxes)
 
             if deduced == True:
                 print("Deduced")
             else:
                 print("No more deduce")
-                l.guess(board, boxes, gts, False)
+                board, gts = l.guess(board, boxes, gts, False)
+                if not gts:
+                    break
         elif count < 1:
             print("Empty found")
-            l.guess(board, boxes, gts, True)
+            board, gts = l.guess(board, boxes, gts, True)
+            if not gts:
+                break
 
+        print("Before possibilities")
+        l.pBoard(board)
         # -- get possible nums after all the changes and update boxes
-        l.getAllPossibleNums(board, boxes)
-        boxes = l.getBoxes(board)
+        board, boxes = l.getAllPossibleNums(board)
 
         g.setLabels(boxes, wid)
 
+        print("After")
         l.pBoard(board)
-        l.pGTS(gts)
+        # l.pGTS(gts)
 
     return True
 
