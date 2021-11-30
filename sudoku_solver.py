@@ -55,7 +55,7 @@ def solveBoard(board, boxes, wid):
         return False
 
     # -- get initial possible nums and update boxes
-    l.getAllPossibleNums(board, boxes)
+    board = l.getAllPossibleNums(board, boxes)
     boxes = l.getBoxes(board)
     gts = []
 
@@ -63,7 +63,7 @@ def solveBoard(board, boxes, wid):
     while True:
         # -- set all of the singles on the board. 
         # -- returns number of changes and -1 if found an empty list
-        count = l.setSingles(board, boxes)
+        board, count = l.setSingles(board, boxes)
 
         if count == 0:
             print("No more singles")
@@ -86,6 +86,7 @@ def solveBoard(board, boxes, wid):
         g.setLabels(boxes, wid)
 
         l.pBoard(board)
+        l.pGTS(gts)
 
     return True
 

@@ -86,9 +86,9 @@ def setSingles(board, boxes):
                     board[row][col] = board[row][col][0]
                     changes += 1
                 elif len(board[row][col]) < 1 or checkIfBad(board, boxes): # -- safe guard
-                    return -1
+                    return board, -1
 
-    return changes
+    return board, changes
 
 def deduce(board, boxes):
     """
@@ -129,11 +129,7 @@ def guess(board, boxes, gts, error):
     # -- gts needs: board, row, col, possibilities, index in possibilities
     # manageGTS(board, gts)
 
-    for i in range(len(gts)):
-        print(gts[i])
-        print(f"Board: {i}")
-        pBoard(gts[i][0])
-    print("Done print")
+    pGTS(gts)
 
     if error:
         while True:
@@ -153,6 +149,13 @@ def guess(board, boxes, gts, error):
     print(gts[-1][3][gts[-1][4]])
     board[gts[-1][1]][gts[-1][2]] = gts[-1][3][gts[-1][4]]
 
+def pGTS(gts):
+    for i in range(len(gts)):
+        print(gts[i])
+        print(f"Board: {i}")
+        pBoard(gts[i][0])
+    print("Done print")
+
 def manageGTS(board, boxes, gts):
 
     # -- goal is to store states and place a number in 
@@ -162,7 +165,8 @@ def manageGTS(board, boxes, gts):
     # -- is unsolvable
     
     if len(gts) >= 1:
-        board = gts[-1][0]   
+        board = copy2DList(gts[-1][0])
+
         pBoard(board)     
 
         if gts[-1][4]+1 == len(gts[-1][3]) or checkIfBad(board, boxes):
@@ -187,12 +191,23 @@ def createGTS(board, gts, pop, x=0, y=0):
             if pop:
                 deleteGTS(gts)
 
-            gts.append([board, row, col, board[row][col], 0])
+            gts.append([[], row, col, board[row][col], 0])
+
+            gts[-1][0] = copy2DList(board)
 
             break
 
 def deleteGTS(gts):
     return gts.pop()
+
+def copy2DList(a):
+    b = []
+    for i in range(len(a)):
+        b.append([])
+        for j in range(len(a[i])):
+            b[i].append(a[i][j])
+
+    return b
 
 # def deleteSame(board, num, x, y):
 #     for i in range(9):
