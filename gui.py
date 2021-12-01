@@ -1,3 +1,5 @@
+# --- GUI for sudoku_solver.py --- #
+
 from tkinter import *
 from tkinter import ttk
 
@@ -255,6 +257,7 @@ def createRowBoard(wid):
     pBoard(board)
     print("Boxes:")
     pBoard(boxes)
+    print(boxes)
 
     return [board, boxes]
 

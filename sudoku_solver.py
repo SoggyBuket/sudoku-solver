@@ -1,6 +1,6 @@
 import gui as g
 import logic as l
-import time
+import pickle
 
 def main():
     """Setup all the things and return the root window"""
@@ -35,20 +35,20 @@ def start(wid):
             count += 1
     # -- check if board has at least 17 numbers
     if count >= 17:
-        # -- get initial board in row form, as well as boxes
-        # -- NOTE: should I move this into solveBoard?
-        board, boxes = g.createRowBoard(wid)
-
         # -- solve the sudoku
-        answer = solveBoard(board, boxes, wid)
+        answer = solveBoard(wid)
         if answer == False:
             print("Answer can not be found")
         else:
             print("Done")
         # print(board)
 
-def solveBoard(board, boxes, wid):
-    """Solve the sudoku while updating the GUI"""
+def solveBoard(wid):
+    """Solve the sudoku while (not really) updating the GUI"""
+
+    # -- get initial board in row form, as well as boxes
+    board, boxes = g.createRowBoard(wid)
+
     # -- see if the board is solvable off the bat
     if l.checkIfBad(board, boxes):
         print("Bad puzzle :(")
@@ -87,7 +87,6 @@ def solveBoard(board, boxes, wid):
 
         print("After")
         l.pBoard(board)
-        # l.pGTS(gts)
 
         if not change:
             break
