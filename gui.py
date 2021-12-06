@@ -248,6 +248,14 @@ def clearEntries(wid):
     for i in range(len(wid["en"][0])):
         wid["en"][0][i].set("")
 
+def showAdded(wid):
+    """Show that board was added"""
+    wid["but"]["add"].config(state="disabled", text="Added")
+
+def resetAdded(wid):
+    """Reset added status"""
+    wid["but"]["add"].config(state="normal", text="Add Board")
+
 def createRowBoard(wid):
     """Create board array in row layout from entries"""
     board = []

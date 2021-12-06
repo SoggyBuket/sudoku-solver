@@ -16,7 +16,7 @@ def main():
     wid["but"]["start"].config(command=lambda: start(wid))
     wid["but"]["reset"].config(command=lambda: reset(wid))
     wid["but"]["clear"].config(command=lambda: clear(wid))
-    wid["but"]["add"].config(command=lambda: addBoard(g.getEns(wid)))
+    wid["but"]["add"].config(command=lambda: storeBoard(wid))
 
     return root
 
@@ -29,6 +29,7 @@ def clear(wid):
     """Reset and clear the input"""
     reset(wid)
     g.clearEntries(wid)
+    g.resetAdded(wid)
 
 def start(wid):
     """Start solving the board"""
@@ -44,7 +45,8 @@ def start(wid):
             print("Answer can not be found")
         else:
             print("Done")
-        # print(board)
+
+        g.resetAdded(wid)
 
 def solveBoard(wid):
     """Solve the sudoku while (not really) updating the GUI"""
@@ -96,10 +98,23 @@ def solveBoard(wid):
 
     return True
 
+def storeBoard(wid):
+    addBoard(g.getEns(wid))
+    g.showAdded(wid)
+
+def makeId(boxes):
+    board_id = ""
+    for box in range(len(boxes)):
+        for col in range(9):
+            board_id += str(boxes[box][col])
+
+    return board_id
+
 def addBoard(boxes):
     e_boxes = readSBoards()
-    e_boxes.append(boxes)
-    writeSBoards(e_boxes)
+    if makeId(boxes) not in e_boxes:
+        e_boxes.append([makeId(boxes), boxes])
+        writeSBoards(e_boxes)
 
 def writeSBoards(e_boxes):
     with open("./boards.pickle", "wb") as f:
