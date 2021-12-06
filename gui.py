@@ -32,7 +32,7 @@ def createStyles():
     # )
 
     # styles["m"].configure(
-    #     "TFrame", background="blue", relief="groove", 
+    #     "but.TFrame", background="blue", relief="groove", 
     #     borderwidth=1, 
     # )
 
@@ -51,15 +51,22 @@ def createStyles():
 def createFrames(root):
     """Create all of the frames used in one array"""
     main_frame = ttk.Frame(root)
+    # -- the padding is very interesting:
+    # -- 1 number means that amount of pixels on all sides
+    # -- 2 numbers means the first number on the left and right, and the second top
+    #    and bottom
+    # -- 4 numbers means left, top, right, bottom
     frames = {
         "main": main_frame,
-        "button": ttk.Frame(main_frame, padding="10"),
+        "button": ttk.Frame(main_frame, padding="10", style="but.TFrame"),
+        "b_center": ttk.Frame(main_frame, padding="10", style="but.TFrame"),
+        "t_center": ttk.Frame(main_frame, padding="10", style="but.TFrame"),
         "l_board": ttk.Frame(main_frame, padding="3", style="board.TFrame"),
         "r_board": ttk.Frame(main_frame, padding="3", style="board.TFrame"),
         "e_boxes": [],
         "l_boxes": [],
-        "input_text": ttk.Frame(main_frame, padding="1"),
-        "output_text": ttk.Frame(main_frame, padding="1"),
+        "input_text": ttk.Frame(main_frame, padding="1", style="but.TFrame"),
+        "output_text": ttk.Frame(main_frame, padding="1 4", style="but.TFrame"),
     }
 
     for i in range(9):
@@ -80,11 +87,14 @@ def createWidgets(root, frames, styles):
             "output_text": ttk.Label(frames["output_text"], text="Output:", padding="20 1"),
         },
         "but": {
-            "start": ttk.Button(frames["button"], text="Start"),
-            "reset": ttk.Button(frames["button"], text="Reset"),
-            "clear": ttk.Button(frames["button"], text="Clear"),
-            "add": ttk.Button(frames["button"], text="Add Board"),
+            "start": ttk.Button(frames["b_center"], text="Start", padding="10 7"),
+            "reset": ttk.Button(frames["b_center"], text="Reset"),
+            "clear": ttk.Button(frames["b_center"], text="Clear"),
+            "add": ttk.Button(frames["t_center"], text="Add Board"),
         },
+        "ot": {
+            "select": [ttk.Combobox(frames["input_text"]), StringVar()]
+        }
     }
 
     # -- check if the entry is a number
@@ -115,15 +125,19 @@ def createWidgets(root, frames, styles):
                 width=1, justify=RIGHT
             ))
 
+    wid["ot"]["select"][0].config(textvariable=wid["ot"]["select"][1])
+
     return wid
 
 def gridAll(frames, wid):
     """Grid all of the widgets and frames used"""
     # -- gridding the frames
     frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
-    frames["l_board"].grid(column=1, row=1, sticky=W)
-    frames["button"].grid(column=2, row=1, sticky=S)
-    frames["r_board"].grid(column=3, row=1, sticky=E)
+    frames["l_board"].grid(column=1, row=1, rowspan=2, sticky=W)
+    # frames["button"].grid(column=2, row=1, sticky=(S, N))
+    frames["b_center"].grid(column=2, row=2, sticky=S)
+    frames["t_center"].grid(column=2, row=1, sticky=N)
+    frames["r_board"].grid(column=3, row=1, rowspan=2, sticky=E)
     frames["input_text"].grid(column=1, row=0, sticky=(N, W))
     frames["output_text"].grid(column=3, row=0, sticky=(N, W))
 
@@ -133,11 +147,13 @@ def gridAll(frames, wid):
         frames["l_boxes"][i].grid(column=i%3, row=i//3)
 
     # -- gridding the widgets
-    wid["but"]["start"].grid(column=0, row=5, sticky=(S, E))
+    wid["but"]["start"].grid(column=0, row=5, sticky=S)
     wid["but"]["reset"].grid(column=0, row=4, sticky=S)
     wid["but"]["clear"].grid(column=0, row=3, sticky=S)
 
     wid["but"]["add"].grid(column=0, row=1, sticky=N)
+
+    wid["ot"]["select"][0].grid(column=1, row=0, sticky=S)
 
     wid["txt"]["input_text"].grid(column=0, row=0)
     wid["txt"]["output_text"].grid(column=0, row=0)
@@ -160,7 +176,7 @@ def gridAll(frames, wid):
 
 def setDefaultBoard(wid):
     """Set the default board in the entries"""
-    d_board = [
+    d_boards = [
         [
             0, 0, 9, 2, 0, 5, 0, 0, 0, 
             0, 8, 0, 4, 0, 0, 1, 2, 0, 
@@ -186,16 +202,16 @@ def setDefaultBoard(wid):
     ]
 
     c = 0
-    for i in range(len(d_boards[c])):
+    setBoard(wid, d_boards, c)
+
+def setBoard(wid, s_boards, c):
+    for i in range(len(s_boards[c])):
         val = ""
 
-        if d_boards[c][i] != 0:
-            val = d_boards[c][i]
+        if s_boards[c][i] != 0:
+            val = s_boards[c][i]
 
         wid["en"][0][i].set(val)
-
-def setBoard(wid, s_boards, choice):
-
 
 def setupThings():
     """For running the file by itself (untested)"""
@@ -315,12 +331,6 @@ def pBoard(board):
 if __name__ == "__main__":
     root = setupThings()
     root.mainloop()
-
-# -- the padding is very interesting:
-# -- 1 number means that amount of pixels on all sides
-# -- 2 numbers means the first number on the left and right, and the second top
-#    and bottom
-# -- 4 numbers means left, top, right, bottom
 
 # NOTES:
 # -- to have borders, you need the 'borderwidth' option set to 2, then you can use 
