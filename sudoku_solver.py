@@ -4,6 +4,8 @@ import pickle
 
 def main():
     """Setup all the things and return the root window"""
+    s_boards = readSBoards()
+
     root = g.rootInit()
     frames = g.createFrames(root)
     styles = g.createStyles()
@@ -14,6 +16,7 @@ def main():
     wid["but"]["start"].config(command=lambda: start(wid))
     wid["but"]["reset"].config(command=lambda: reset(wid))
     wid["but"]["clear"].config(command=lambda: clear(wid))
+    wid["but"]["add"].config(command=lambda: addBoard(g.getEns(wid)))
 
     return root
 
@@ -93,21 +96,21 @@ def solveBoard(wid):
 
     return True
 
-# def addBoard(boxes):
-#     e_boxes = readDBoards()
-#     e_boxes.append(boxes)
-#     writeDBoards(e_boxes)
+def addBoard(boxes):
+    e_boxes = readSBoards()
+    e_boxes.append(boxes)
+    writeSBoards(e_boxes)
 
-# def writeDBoards(e_boxes):
-#     with open("./boards.pickle", "wb") as f:
-#         pickle.dump(e_boxes, f)
+def writeSBoards(e_boxes):
+    with open("./boards.pickle", "wb") as f:
+        pickle.dump(e_boxes, f)
 
-# def readDBoards():
-#     d_boards = []
-#     with open("./boards.pickle", "rb") as f:
-#         d_boards = pickle.load(f)
+def readSBoards():
+    s_boards = []
+    with open("./boards.pickle", "rb") as f:
+        s_boards = pickle.load(f)
 
-#     return d_boards
+    return s_boards
 
 
 if __name__ == "__main__":

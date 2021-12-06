@@ -70,6 +70,8 @@ def createFrames(root):
 
 def createWidgets(root, frames, styles):
     """Create all of the widgets used in one array"""
+
+    # -- To make a new widget add it to the wid array and grid it
     wid = {
         "en": [[]],
         "la": [[]],
@@ -80,7 +82,8 @@ def createWidgets(root, frames, styles):
         "but": {
             "start": ttk.Button(frames["button"], text="Start"),
             "reset": ttk.Button(frames["button"], text="Reset"),
-            "clear": ttk.Button(frames["button"], text="Clear")
+            "clear": ttk.Button(frames["button"], text="Clear"),
+            "add": ttk.Button(frames["button"], text="Add Board"),
         },
     }
 
@@ -134,6 +137,8 @@ def gridAll(frames, wid):
     wid["but"]["reset"].grid(column=0, row=4, sticky=S)
     wid["but"]["clear"].grid(column=0, row=3, sticky=S)
 
+    wid["but"]["add"].grid(column=0, row=1, sticky=N)
+
     wid["txt"]["input_text"].grid(column=0, row=0)
     wid["txt"]["output_text"].grid(column=0, row=0)
 
@@ -180,13 +185,16 @@ def setDefaultBoard(wid):
         ]
     ]
 
-    for i in range(len(wid["en"][0])):
+    c = 0
+    for i in range(len(d_boards[c])):
         val = ""
-        
-        if d_board[0][i] != 0:
-            val = d_board[0][i]
+
+        if d_boards[c][i] != 0:
+            val = d_boards[c][i]
 
         wid["en"][0][i].set(val)
+
+def setBoard(wid, s_boards, choice):
 
 
 def setupThings():
@@ -267,6 +275,23 @@ def createRowBoard(wid):
 
     return [board, boxes]
 
+def getEns(wid):
+    """Get the entry's values in box form"""
+    boxes = []
+    for box in range(len(wid["en"][0])):
+        boxes.append([])
+        for cell in range(9):
+            count = cell + (9 * box)
+            num = 0
+            en = wid["en"][0][count].get()
+
+            if en.isdigit():
+                num = int(en)
+
+            boxes[box].append(num)
+
+    return boxes
+
 def setLabels(boxes, wid):
     """Set the labels to the board values from boxes"""
     for box in range(len(boxes)):
@@ -302,4 +327,3 @@ if __name__ == "__main__":
 #    'relief' to set the border style you want
 # -- if something isn't working properly, like you can't change a color on something,
 #    see if you can use a style to make it work
-# -- minimum amount of numbers allowed is 17
