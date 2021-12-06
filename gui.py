@@ -294,7 +294,7 @@ def createRowBoard(wid):
 def getEns(wid):
     """Get the entry's values in box form"""
     boxes = []
-    for box in range(len(wid["en"][0])):
+    for box in range(9):
         boxes.append([])
         for cell in range(9):
             count = cell + (9 * box)
