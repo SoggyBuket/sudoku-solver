@@ -201,7 +201,7 @@ def setDefaultBoard(wid):
         ]
     ]
 
-    c = 0
+    c = 1
     setBoard(wid, d_boards, c)
 
 def setBoard(wid, s_boards, c):
@@ -255,6 +255,10 @@ def showAdded(wid):
 def resetAdded(wid):
     """Reset added status"""
     wid["but"]["add"].config(state="normal", text="Add Board")
+
+def setBoardCombo(wid, s_boards):
+    """Show stored boards in combo box"""
+    wid["ot"]["select"][0].config(values=list(s_boards.keys()))
 
 def createRowBoard(wid):
     """Create board array in row layout from entries"""

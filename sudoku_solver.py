@@ -18,6 +18,8 @@ def main():
     wid["but"]["clear"].config(command=lambda: clear(wid))
     wid["but"]["add"].config(command=lambda: storeBoard(wid))
 
+    g.setBoardCombo(wid, s_boards)
+
     return root
 
 def reset(wid):
@@ -101,6 +103,7 @@ def solveBoard(wid):
 def storeBoard(wid):
     addBoard(g.getEns(wid))
     g.showAdded(wid)
+    g.setBoardCombo(wid, readSBoards())
 
 def makeId(boxes):
     board_id = ""
@@ -112,8 +115,8 @@ def makeId(boxes):
 
 def addBoard(boxes):
     e_boxes = readSBoards()
-    if makeId(boxes) not in e_boxes:
-        e_boxes.append([makeId(boxes), boxes])
+    if makeId(boxes) not in e_boxes.keys():
+        e_boxes[str(makeId(boxes))] = boxes
         writeSBoards(e_boxes)
 
 def writeSBoards(e_boxes):
@@ -121,7 +124,7 @@ def writeSBoards(e_boxes):
         pickle.dump(e_boxes, f)
 
 def readSBoards():
-    s_boards = []
+    s_boards = {}
     with open("./boards.pickle", "rb") as f:
         s_boards = pickle.load(f)
 
