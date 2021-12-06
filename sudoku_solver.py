@@ -93,6 +93,21 @@ def solveBoard(wid):
 
     return True
 
+# def addBoard(boxes):
+#     e_boxes = readDBoards()
+#     e_boxes.append(boxes)
+#     writeDBoards(e_boxes)
+
+# def writeDBoards(e_boxes):
+#     with open("./boards.pickle", "wb") as f:
+#         pickle.dump(e_boxes, f)
+
+# def readDBoards():
+#     d_boards = []
+#     with open("./boards.pickle", "rb") as f:
+#         d_boards = pickle.load(f)
+
+#     return d_boards
 
 
 if __name__ == "__main__":
