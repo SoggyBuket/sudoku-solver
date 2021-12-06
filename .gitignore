@@ -113,7 +113,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-tk_test.py
+debug
 
 # For a windows machine I'm using
 .file_path_windows.txt

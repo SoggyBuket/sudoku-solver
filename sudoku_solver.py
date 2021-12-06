@@ -4,7 +4,8 @@ import pickle
 
 def main():
     """Setup all the things and return the root window"""
-    s_boards = readSBoards()
+    # s_boards = readSBoards()
+    # print(s_boards)
 
     root = g.rootInit()
     frames = g.createFrames(root)
@@ -18,7 +19,12 @@ def main():
     wid["but"]["clear"].config(command=lambda: clear(wid))
     wid["but"]["add"].config(command=lambda: storeBoard(wid))
 
-    g.setBoardCombo(wid, s_boards)
+    def setBoardWrap(a):
+        g.setBoard(wid, readSBoards(), wid["ot"]["select"][0].get())
+
+    wid["ot"]["select"][0].bind("<<ComboboxSelected>>", setBoardWrap)
+
+    g.setBoardCombo(wid, readSBoards())
 
     return root
 
@@ -105,18 +111,22 @@ def storeBoard(wid):
     g.showAdded(wid)
     g.setBoardCombo(wid, readSBoards())
 
-def makeId(boxes):
+def makeId(flat_boxes):
     board_id = ""
-    for box in range(len(boxes)):
-        for col in range(9):
-            board_id += str(boxes[box][col])
+    # for box in range(len(boxes)):
+    #     for col in range(9):
+    #         board_id += str(boxes[box][col])
+
+    for i in range(len(flat_boxes)):
+        board_id += str(flat_boxes[i])
 
     return board_id
 
-def addBoard(boxes):
+def addBoard(flat_boxes):
     e_boxes = readSBoards()
-    if makeId(boxes) not in e_boxes.keys():
-        e_boxes[str(makeId(boxes))] = boxes
+    boxes_id = makeId(flat_boxes)
+    if boxes_id not in e_boxes.keys():
+        e_boxes[boxes_id] = flat_boxes
         writeSBoards(e_boxes)
 
 def writeSBoards(e_boxes):

@@ -125,7 +125,7 @@ def createWidgets(root, frames, styles):
                 width=1, justify=RIGHT
             ))
 
-    wid["ot"]["select"][0].config(textvariable=wid["ot"]["select"][1])
+    wid["ot"]["select"][0].config(textvariable=wid["ot"]["select"][1], state="readonly")
 
     return wid
 
@@ -201,10 +201,13 @@ def setDefaultBoard(wid):
         ]
     ]
 
-    c = 1
+    c = 0
     setBoard(wid, d_boards, c)
 
 def setBoard(wid, s_boards, c):
+    print(len(s_boards[c]))
+    # if c == '': return
+
     for i in range(len(s_boards[c])):
         val = ""
 
@@ -304,21 +307,30 @@ def createRowBoard(wid):
     return [board, boxes]
 
 def getEns(wid):
-    """Get the entry's values in box form"""
-    boxes = []
-    for box in range(9):
-        boxes.append([])
-        for cell in range(9):
-            count = cell + (9 * box)
-            num = 0
-            en = wid["en"][0][count].get()
+    """Get the entry's values in flat box form"""
+    flat_boxes = []
+    # for box in range(9):
+    #     boxes.append([])
+    #     for cell in range(9):
+    #         count = cell + (9 * box)
+    #         num = 0
+    #         en = wid["en"][0][count].get()
 
-            if en.isdigit():
-                num = int(en)
+    #         if en.isdigit():
+    #             num = int(en)
 
-            boxes[box].append(num)
+    #         boxes[box].append(num)
 
-    return boxes
+    for i in range(81):
+        num = 0
+        en = wid["en"][0][i].get()
+
+        if en.isdigit():
+            num = int(en)
+
+        flat_boxes.append(num)
+
+    return flat_boxes
 
 def setLabels(boxes, wid):
     """Set the labels to the board values from boxes"""
