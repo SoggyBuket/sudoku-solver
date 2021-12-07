@@ -126,7 +126,7 @@ def addBoard(flat_boxes):
     """Write a board to the file with extra steps"""
     e_boxes = readSBoards()
     boxes_id = makeId(flat_boxes)
-    if boxes_id not in e_boxes.keys():
+    if boxes_id not in e_boxes.keys() and flat_boxes.count(0) <= (81 - 17):
         e_boxes[boxes_id] = flat_boxes
         writeSBoards(e_boxes)
 
