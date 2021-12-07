@@ -89,7 +89,8 @@ def solveBoard(wid):
                 print("No more deduce")
                 board, gts = l.guess(board, boxes, gts, False)
         elif count < 1:
-            print("Empty found")
+            print("Error found")
+            l.pBoard(board)
             board, gts = l.guess(board, boxes, gts, True)
 
         print("Before possibilities")

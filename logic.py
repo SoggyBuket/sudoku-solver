@@ -12,7 +12,7 @@ def getBoxes(board):
 
     return boxes
 
-def checkIfBad(board, boxes):
+def checkIfBad(board, boxess):
     """Check if the board starts bad"""
     def repeats(iterable):
         for j in range(1, len(iterable)+1):
@@ -22,7 +22,12 @@ def checkIfBad(board, boxes):
         return False
 
     for i in range(9):
-        if repeats(getCol(board, i)) or repeats(board[i]) or repeats(boxes[i]):
+        if repeats(getCol(board, i)) or repeats(board[i]) or repeats(boxess[i]):
+            print(i)
+            print(repeats(getCol(board, i)), repeats(board[i]), repeats(boxess[i]))
+            print(getCol(board, i))
+            print(board[i])
+            print(boxess[i])
             return True
 
     return False
@@ -153,13 +158,13 @@ def guess(board, boxes, gts, error):
     # print(gts)
     pBoard(board)
     # -- set the guess in gts
-    # print(gts)
-    # print(gts[-1])
-    # print(gts[-1][1])
-    # print(gts[-1][2])
-    # print(gts[-1][3])
-    # print(gts[-1][4])
-    # print(gts[-1][3][gts[-1][4]])
+    print(gts)
+    print(gts[-1])
+    print(gts[-1][1])
+    print(gts[-1][2])
+    print(gts[-1][3])
+    print(gts[-1][4])
+    print(gts[-1][3][gts[-1][4]])
     board[gts[-1][1]][gts[-1][2]] = gts[-1][3][gts[-1][4]]
 
     return board, gts
@@ -183,8 +188,10 @@ def manageGTS(board, boxes, gts):
     
     if len(gts) >= 1:
         board = copy2DList(gts[-1][0])
+        boxes = getBoxes(board)
 
-        pBoard(board, "manageGTS")     
+        pBoard(board, "manageGTS")
+        pBoard(boxes, "manageGTS")
 
         if gts[-1][4]+1 == len(gts[-1][3]) or checkIfBad(board, boxes):
             print("Bad")
@@ -204,7 +211,7 @@ def createGTS(board, gts, pop, x=0, y=0):
         row = i//9
         col = i%9
 
-        if isinstance(board[row][col], list):
+        if isinstance(board[row][col], list) and len(board[row][col]) > 0:
             print(f"Guess at row, col: {row}, {col}")
             if pop:
                 deleteGTS(gts)
