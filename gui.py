@@ -30,7 +30,6 @@ def createStyles():
     #     "TLabel", background="black", relief="solid",
     #     borderwidth=1,
     # )
-
     # styles["m"].configure(
     #     "but.TFrame", background="blue", relief="groove", 
     #     borderwidth=1, 
@@ -51,6 +50,7 @@ def createStyles():
 def createFrames(root):
     """Create all of the frames used in one array"""
     main_frame = ttk.Frame(root)
+
     # -- the padding is very interesting:
     # -- 1 number means that amount of pixels on all sides
     # -- 2 numbers means the first number on the left and right, and the second top
@@ -131,6 +131,7 @@ def createWidgets(root, frames, styles):
 
 def gridAll(frames, wid):
     """Grid all of the widgets and frames used"""
+
     # -- gridding the frames
     frames["main"].grid(column=0, row=0, sticky=(N, W, E, S))
     frames["l_board"].grid(column=1, row=1, rowspan=2, sticky=W)
@@ -150,7 +151,6 @@ def gridAll(frames, wid):
     wid["but"]["start"].grid(column=0, row=5, sticky=S)
     wid["but"]["reset"].grid(column=0, row=4, sticky=S)
     wid["but"]["clear"].grid(column=0, row=3, sticky=S)
-
     wid["but"]["add"].grid(column=0, row=1, sticky=N)
 
     wid["ot"]["select"][0].grid(column=1, row=0, sticky=S)
@@ -175,7 +175,7 @@ def gridAll(frames, wid):
             count += 1
 
 def setDefaultBoard(wid):
-    """Set the default board in the entries"""
+    """Set the default board in the entries for debug purposes"""
     d_boards = [
         [
             0, 0, 9, 2, 0, 5, 0, 0, 0, 
@@ -205,8 +205,7 @@ def setDefaultBoard(wid):
     setBoard(wid, d_boards, c)
 
 def setBoard(wid, s_boards, c):
-    print(len(s_boards[c]))
-    # if c == '': return
+    """Put given board in input board"""
 
     for i in range(len(s_boards[c])):
         val = ""
@@ -218,6 +217,7 @@ def setBoard(wid, s_boards, c):
 
 def setupThings():
     """For running the file by itself (untested)"""
+
     root = rootInit()
     # -- houses all the frames
     frames = createFrames(root)
@@ -309,17 +309,6 @@ def createRowBoard(wid):
 def getEns(wid):
     """Get the entry's values in flat box form"""
     flat_boxes = []
-    # for box in range(9):
-    #     boxes.append([])
-    #     for cell in range(9):
-    #         count = cell + (9 * box)
-    #         num = 0
-    #         en = wid["en"][0][count].get()
-
-    #         if en.isdigit():
-    #             num = int(en)
-
-    #         boxes[box].append(num)
 
     for i in range(81):
         num = 0

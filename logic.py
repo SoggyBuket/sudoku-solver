@@ -131,6 +131,8 @@ def deduce(board, boxes):
     return board, False
 
 def guess(board, boxes, gts, error):
+    """Make a guess on a square"""
+
     # -- guessing means putting a number in a square from it's possibilities. We
     # -- have to make a gts each time we guess so we can store the board state
     # -- and revert back if we need to
@@ -163,6 +165,7 @@ def guess(board, boxes, gts, error):
     return board, gts
 
 def pGTS(gts):
+    """Print gts for debug purposes"""
     for i in range(len(gts)):
         print(gts[i])
         print(f"Board: {i}")
@@ -170,6 +173,7 @@ def pGTS(gts):
     print("Done print")
 
 def manageGTS(board, boxes, gts):
+    """Change gts based on certain things"""
 
     # -- goal is to store states and place a number in 
     # -- a cell as a guess. if the guess doesn't work then try a different guess.
@@ -195,7 +199,7 @@ def manageGTS(board, boxes, gts):
     return board, gts
 
 def createGTS(board, gts, pop, x=0, y=0):
-    """Find a new array for a gts"""
+    """Add a new gts to gts"""
     for i in range(81 - (y + (9*x))):
         row = i//9
         col = i%9
@@ -214,9 +218,11 @@ def createGTS(board, gts, pop, x=0, y=0):
     # return False
 
 def deleteGTS(gts):
+    """Delete a gts from gts"""
     return gts.pop()
 
 def copy2DList(a):
+    """Copy a 2D list one element at a time"""
     b = []
     for i in range(len(a)):
         b.append([])
@@ -224,23 +230,6 @@ def copy2DList(a):
             b[i].append(a[i][j])
 
     return b
-
-# def deleteSame(board, num, x, y):
-#     for i in range(9):
-#         if isinstance(board[x][i], list) and num in board[x][i]:
-#             print(f"row delete {num}  row, col: {x}, {i}")
-#             board[x][i].remove(num)
-
-#         if isinstance(board[i][y], list) and num in board[i][y]:
-#             print(f"col delete {num}  row, col: {i}, {y}")
-#             board[i][y].remove(num)
-
-#     for row in range(3):
-#         for col in range(3):
-#             box_num = board[(3 * (x//3)) + row][(3 * (y//3)) + col]
-#             if isinstance(box_num, list) and num in box_num:
-#                 print(f"box delete {num}  row, col: {(3 * (x//3)) + row}, {(3 * (y//3)) + col}")
-#                 board[(3 * (x//3)) + row][(3 * (y//3)) + col].remove(num)
 
 def findPosLines(board, boxes, x, y):
     """
@@ -275,6 +264,7 @@ def findPosLines(board, boxes, x, y):
                 
 # -- copy from gui.py
 def pBoard(board, message=None):
+    """Pretty print the board"""
     if message:
         print(message)
 

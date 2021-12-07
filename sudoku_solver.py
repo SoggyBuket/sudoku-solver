@@ -4,26 +4,27 @@ import pickle
 
 def main():
     """Setup all the things and return the root window"""
-    # s_boards = readSBoards()
-    # print(s_boards)
-
+    
     root = g.rootInit()
     frames = g.createFrames(root)
     styles = g.createStyles()
     wid = g.createWidgets(root, frames, styles)
-    g.setDefaultBoard(wid)
+    # g.setDefaultBoard(wid) # -- this is for debug
     g.gridAll(frames, wid)
 
+    # -- init all the button functions
     wid["but"]["start"].config(command=lambda: start(wid))
     wid["but"]["reset"].config(command=lambda: reset(wid))
     wid["but"]["clear"].config(command=lambda: clear(wid))
     wid["but"]["add"].config(command=lambda: storeBoard(wid))
 
+    # -- a wrapper for the setBoard function so that the line below it works
     def setBoardWrap(a):
         g.setBoard(wid, readSBoards(), wid["ot"]["select"][0].get())
 
     wid["ot"]["select"][0].bind("<<ComboboxSelected>>", setBoardWrap)
 
+    # -- set the values in the combo box
     g.setBoardCombo(wid, readSBoards())
 
     return root
@@ -107,15 +108,14 @@ def solveBoard(wid):
     return True
 
 def storeBoard(wid):
+    """Add board state to file"""
     addBoard(g.getEns(wid))
     g.showAdded(wid)
     g.setBoardCombo(wid, readSBoards())
 
 def makeId(flat_boxes):
+    """Make ID for a board"""
     board_id = ""
-    # for box in range(len(boxes)):
-    #     for col in range(9):
-    #         board_id += str(boxes[box][col])
 
     for i in range(len(flat_boxes)):
         board_id += str(flat_boxes[i])
@@ -123,6 +123,7 @@ def makeId(flat_boxes):
     return board_id
 
 def addBoard(flat_boxes):
+    """Write a board to the file with extra steps"""
     e_boxes = readSBoards()
     boxes_id = makeId(flat_boxes)
     if boxes_id not in e_boxes.keys():
@@ -130,10 +131,12 @@ def addBoard(flat_boxes):
         writeSBoards(e_boxes)
 
 def writeSBoards(e_boxes):
+    """Write board to a file"""
     with open("./boards.pickle", "wb") as f:
         pickle.dump(e_boxes, f)
 
 def readSBoards():
+    """Read boards from file"""
     s_boards = {}
     with open("./boards.pickle", "rb") as f:
         s_boards = pickle.load(f)
